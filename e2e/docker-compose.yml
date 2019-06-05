@@ -2,7 +2,7 @@ version: '2'
 
 services:
 
-  sut:
+  e2e:
     build: ./tests/
     depends_on:
       - vote
@@ -22,7 +22,7 @@ services:
       - back-tier
 
   result:
-    build: .
+    build: ../result/
     ports: ["80"]
     depends_on:
       - redis
