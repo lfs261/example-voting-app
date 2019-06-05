@@ -30,7 +30,7 @@ pipeline {
             steps {
                 echo 'Packaging....'
                 dir('worker'){
-                  sh 'mvn -f worker/pom.xml package -DskipTests'
+                  sh 'mvn package -DskipTests'
                   archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
                }
             }
