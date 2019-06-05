@@ -1,15 +1,16 @@
 pipeline {
 
-   agent {
-        docker {
-            image 'maven:3-alpine'
-            args '-v $HOME/.m2:/root/.m2'
-        }
-    }
+   agent any
 
 
     stages {
         stage('Build') {
+            agent {
+              docker {
+                image 'maven:3-alpine'
+                args '-v $HOME/.m2:/root/.m2'
+              }
+            }
             steps {
                 echo 'Building..'
                 dir('worker'){
@@ -19,6 +20,12 @@ pipeline {
             }
 
         stage('Test') {
+            agent {
+              docker {
+                image 'maven:3-alpine'
+                args '-v $HOME/.m2:/root/.m2'
+              }
+            }
             steps {
                 echo 'Testing..'
                 dir('worker'){
@@ -27,12 +34,30 @@ pipeline {
             }
         }
         stage('Package') {
+            agent {
+              docker {
+                image 'maven:3-alpine'
+                args '-v $HOME/.m2:/root/.m2'
+              }
+            }
             steps {
                 echo 'Packaging....'
                 dir('worker'){
                   sh 'mvn package -DskipTests'
                   archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
                }
+            }
+        }
+        stage('Package with Docker') {
+            agent any
+            steps {
+                echo 'Building and Publishing Docker Image'
+                script {
+                  docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
+                    def customImage = docker.build("initcron/worker:${env.BRANCH_NAME}-${env.BUILD_ID}", "./worker")
+                    customImage.push()
+                  }
+                }
             }
         }
     }
