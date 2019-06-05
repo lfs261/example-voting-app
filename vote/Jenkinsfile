@@ -1,25 +1,30 @@
 pipeline {
 
-   agent {
-        docker {
-            image 'python:2.7-alpine'
-            args '--user root'
-        }
-    }
-
+   agent none
 
     stages {
         stage('Build') {
+            agent {
+              docker {
+                image 'python:2.7-alpine'
+                args '--user root'
+              }
+            }
             steps {
                 echo 'Building..'
                 dir('vote'){
                   sh 'pip install -r requirements.txt'
                 }
             }
-            }
+        }
 
         stage('Test') {
-            steps {
+            agent {
+              docker {
+                image 'python:2.7-alpine'
+                args '--user root'
+            }
+            steps { 
                 echo 'Testing..'
                 dir('vote'){
                   sh 'nosetests -v'
@@ -28,6 +33,7 @@ pipeline {
         }
 
         stage('Package with Docker') {
+            agent any
             steps {
                 echo 'Building and Publishing Docker Image'
 
