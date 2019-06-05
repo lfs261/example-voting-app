@@ -26,5 +26,15 @@ pipeline {
                 }
             }
         }
+
+        stage('Package with Docker') {
+            steps {
+                echo 'Building and Publishing Docker Image'
+
+                script {
+                  def customImage = docker.build("initcron/votetest:${env.BUILD_ID}", "./vote")
+                }
+            }
+        }
     }
 }
