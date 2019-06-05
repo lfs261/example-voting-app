@@ -42,7 +42,9 @@ pipeline {
                 echo 'Building and Publishing Docker Image'
 
                 script {
-                  def customImage = docker.build("initcron/votetest:${env.BUILD_ID}", "./vote")
+                  def myImage = docker.build("initcron/votetest:${env.BUILD_ID}", "./vote")
+                  myImage.push()
+                  myImage.push(dev)
                 }
             }
         }
