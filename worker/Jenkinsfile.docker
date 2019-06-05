@@ -12,7 +12,9 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
-                sh 'mvn -f worker/pom.xml compile'
+                dir('worker'){
+                  sh 'mvn compile'
+                }
             }
             }
 
