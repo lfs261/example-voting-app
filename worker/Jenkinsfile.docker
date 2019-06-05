@@ -10,7 +10,6 @@ pipeline {
 
     stages {
         stage('Build') {
-        when {changeset "**/worker/*" }
             steps {
                 echo 'Building..'
                 sh 'mvn -f worker/pom.xml compile'
@@ -18,14 +17,12 @@ pipeline {
             }
 
         stage('Test') {
-        when {changeset "**/worker/*" }
             steps {
                 echo 'Testing..'
                 sh 'mvn -f worker/pom.xml test'
             }
         }
         stage('Package') {
-        when {changeset "**/worker/*" }
             steps {
                 echo 'Packaging....'
                 sh 'mvn -f worker/pom.xml package -DskipTests'
