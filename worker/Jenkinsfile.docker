@@ -21,14 +21,18 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing..'
-                sh 'mvn -f worker/pom.xml test'
+                dir('worker'){
+                  sh 'mvn test'
+                }
             }
         }
         stage('Package') {
             steps {
                 echo 'Packaging....'
-                sh 'mvn -f worker/pom.xml package -DskipTests'
-                archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+                dir('worker'){
+                  sh 'mvn -f worker/pom.xml package -DskipTests'
+                  archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+               }
             }
         }
     }
