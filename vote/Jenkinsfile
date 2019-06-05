@@ -40,11 +40,9 @@ pipeline {
             agent any
             steps {
                 echo 'Building and Publishing Docker Image'
-
-                script {
-                  def myImage = docker.build("initcron/votetest:${env.BUILD_ID}", "./vote")
-                  myImage.push()
-                  myImage.push(dev)
+                withDockerRegistry([ credentialsId: "dockerhub", "url": "https://index.docker.io/v1/" ]) {
+                  sh "docker build -f vote/Dockerfile -t initcron/votetest:${env.BUILD_ID} vote/"
+                  sh "docker push initcron/votetest:${env.BUILD_ID}"
                 }
             }
         }
