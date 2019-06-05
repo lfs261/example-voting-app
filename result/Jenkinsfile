@@ -1,0 +1,50 @@
+pipeline {
+
+   agent none
+
+   triggers { pollSCM('H/2 * * * *') }
+
+    stages {
+        stage('Build') {
+            agent {
+              docker {
+                image 'node:8.9-alpine'
+              }
+            }
+            steps {
+                echo 'Building..'
+                dir('result'){
+                  sh 'npm install'
+                }
+            }
+        }
+
+        stage('Test') {
+            agent {
+              docker {
+                image 'node:8.9-alpine'
+              }
+            }
+            steps { 
+                echo 'Testing..'
+                dir('result'){
+                  sh 'npm install'
+                  sh 'npm test'
+                }
+            }
+        }
+
+        stage('Package with Docker') {
+            agent any
+            steps {
+                echo 'Building and Publishing Docker Image'
+                script {
+                  docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
+                    def customImage = docker.build("initcron/result:${env.BRANCH_NAME}-${env.BUILD_ID}", "./result")
+                    customImage.push()
+                  }
+                }
+            }
+        }
+    }
+}
