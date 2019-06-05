@@ -1,0 +1,29 @@
+pipeline {
+
+   agent {
+        docker {
+            image 'python:3.7.3-alpine3.9'
+        }
+    }
+
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building..'
+                dir("vote") {
+                     sh 'pip install -r requirements.txt'
+                }
+            }
+            }
+
+        stage('Test') {
+            steps {
+                echo 'Testing..'
+                dir("vote") {
+                     sh 'nosetests -v'
+                }
+            }
+        }
+    }
+}
