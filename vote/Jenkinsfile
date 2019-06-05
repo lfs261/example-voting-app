@@ -42,7 +42,7 @@ pipeline {
                 echo 'Building and Publishing Docker Image'
                 script {
                   docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
-                    def customImage = docker.build("initcron/votetest:${env.BUILD_ID}", "./vote")
+                    def customImage = docker.build("initcron/votetest:${env.BRANCH_NAME}-${env.BUILD_ID}", "./vote")
                     customImage.push()
                   }
                 }
