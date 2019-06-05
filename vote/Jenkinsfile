@@ -2,7 +2,7 @@ pipeline {
 
    agent {
         docker {
-            image 'python:3.7.3-alpine3.9'
+            image 'python:2.7-alpine'
         }
     }
 
@@ -11,8 +11,8 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
-                dir("vote") {
-                     sh 'pip install -r requirements.txt'
+                dir('vote'){
+                  sh 'pip install -r requirements.txt'
                 }
             }
             }
@@ -20,9 +20,17 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing..'
-                dir("vote") {
-                     sh 'nosetests -v'
+                dir('vote'){
+                  sh 'nosetests -v'
                 }
+            }
+        }
+        stage('Package') {
+            steps {
+                echo 'Packaging....'
+                dir('vote'){
+                  sh 'python'
+               }
             }
         }
     }
