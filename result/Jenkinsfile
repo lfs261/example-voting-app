@@ -36,10 +36,13 @@ pipeline {
 
         stage('Sonarqube') {
             agent any 
+            environment{
+              sonarpath = tool 'SonarScanner'
+            }
             steps {
                 echo 'Running Sonarqube Analysis..'
                 dir('result'){
-                  sh '/opt/sonar-scanner/bin/sonar-scanner -Dproject.settings=sonar-project.properties'
+                  sh "${sonarpath}/bin/sonar-scanner -Dproject.settings=sonar-project.properties"
                 }
             }
         }
