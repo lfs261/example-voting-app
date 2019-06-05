@@ -3,6 +3,7 @@ pipeline {
    agent {
         docker {
             image 'python:2.7-alpine'
+            args '--user root'
         }
     }
 
@@ -23,14 +24,6 @@ pipeline {
                 dir('vote'){
                   sh 'nosetests -v'
                 }
-            }
-        }
-        stage('Package') {
-            steps {
-                echo 'Packaging....'
-                dir('vote'){
-                  sh 'python'
-               }
             }
         }
     }
