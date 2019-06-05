@@ -6,8 +6,8 @@ pipeline {
     }
 
     stages {
-        when {changeset "**/worker/*.*" }
         stage('Build') {
+        when {changeset "**/worker/*.*" }
             steps {
                 echo 'Building..'
                 sh 'mvn compile'
@@ -15,12 +15,14 @@ pipeline {
             }
 
         stage('Test') {
+        when {changeset "**/worker/*.*" }
             steps {
                 echo 'Testing..'
                 sh 'mvn test'
             }
         }
         stage('Package') {
+        when {changeset "**/worker/*.*" }
             steps {
                 echo 'Packaging....'
                 sh 'mvn package -DskipTests'
