@@ -10,7 +10,7 @@ pipeline {
         when {changeset "**/worker/**" }
             steps {
                 echo 'Building..'
-                sh 'mvn compile'
+                sh 'mvn -f worker/pom.xml compile'
             }
             }
 
@@ -18,14 +18,14 @@ pipeline {
         when {changeset "**/worker/**" }
             steps {
                 echo 'Testing..'
-                sh 'mvn test'
+                sh 'mvn -f worker/pom.xml test'
             }
         }
         stage('Package') {
         when {changeset "**/worker/**" }
             steps {
                 echo 'Packaging....'
-                sh 'mvn package -DskipTests'
+                sh 'mvn -f worker/pom.xml package -DskipTests'
                 archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
             }
         }
