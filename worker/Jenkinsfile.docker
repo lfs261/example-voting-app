@@ -1,0 +1,36 @@
+pipeline {
+
+   agent {
+        docker {
+            image 'maven:3-alpine'
+            args '-v $HOME/.m2:/root/.m2'
+        }
+    }
+
+
+    stages {
+        stage('Build') {
+        when {changeset "**/worker/*" }
+            steps {
+                echo 'Building..'
+                sh 'mvn -f worker/pom.xml compile'
+            }
+            }
+
+        stage('Test') {
+        when {changeset "**/worker/*" }
+            steps {
+                echo 'Testing..'
+                sh 'mvn -f worker/pom.xml test'
+            }
+        }
+        stage('Package') {
+        when {changeset "**/worker/*" }
+            steps {
+                echo 'Packaging....'
+                sh 'mvn -f worker/pom.xml package -DskipTests'
+                archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+            }
+        }
+    }
+}
