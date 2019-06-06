@@ -6,6 +6,9 @@ pipeline {
 
     stages {
         stage('Build') {
+            when {
+                 changeset "**/result/**"
+            }
             agent {
               docker {
                 image 'node:8.9-alpine'
@@ -20,6 +23,9 @@ pipeline {
         }
 
         stage('Test') {
+            when {
+                 changeset "**/result/**"
+            }
             agent {
               docker {
                 image 'node:8.9-alpine'
@@ -35,6 +41,10 @@ pipeline {
         }
 
         stage('Sonarqube') {
+            when {
+                 changeset "**/result/**"
+                 branch 'master'
+            }
             agent any 
             environment{
               sonarpath = tool 'SonarScanner'
@@ -48,6 +58,9 @@ pipeline {
         }
 
         stage('Package with Docker') {
+            when {
+                 changeset "**/result/**"
+            }
             agent any
             steps {
                 echo 'Building and Publishing Docker Image'

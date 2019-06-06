@@ -5,6 +5,9 @@ pipeline {
 
     stages {
         stage('Build') {
+            when {
+                changeset "**/worker/**"
+            }
             agent {
               docker {
                 image 'maven:3-alpine'
@@ -20,6 +23,9 @@ pipeline {
             }
 
         stage('Test') {
+            when {
+	    	 changeset "**/worker/**"
+            }
             agent {
               docker {
                 image 'maven:3-alpine'
@@ -34,6 +40,9 @@ pipeline {
             }
         }
         stage('Package') {
+            when {
+	    	 changeset "**/worker/**"
+            }
             agent {
               docker {
                 image 'maven:3-alpine'
@@ -49,6 +58,9 @@ pipeline {
             }
         }
         stage('Package with Docker') {
+            when {
+	    	 changeset "**/worker/**"
+            }
             agent any
             steps {
                 echo 'Building and Publishing Docker Image'

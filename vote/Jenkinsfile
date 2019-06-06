@@ -5,6 +5,9 @@ pipeline {
    triggers { pollSCM('H/2 * * * *') }
 
     stages {
+            when {
+	    	 changeset "**/vote/**"
+            }
         stage('Build') {
             agent {
               docker {
@@ -21,6 +24,9 @@ pipeline {
         }
 
         stage('Test') {
+            when {
+                 changeset "**/vote/**"
+            }
             agent {
               docker {
                 image 'python:2.7-alpine'
@@ -37,6 +43,9 @@ pipeline {
         }
 
         stage('Package with Docker') {
+            when {
+                 changeset "**/vote/**"
+            }
             agent any
             steps {
                 echo 'Building and Publishing Docker Image'
