@@ -8,11 +8,14 @@ services:
       - vote
       - result
       - worker
+      - db
+      - redis
     networks:
       - front-tier
 
   vote:
-    build: ../vote/
+#    build: ../vote/
+    image: ${VOTE_IMAGE}
     ports: ["80"]
     depends_on:
       - redis
@@ -22,7 +25,8 @@ services:
       - back-tier
 
   result:
-    build: ../result/
+#    build: ../result/
+    image: ${RESULT_IMAGE}
     ports: ["80"]
     depends_on:
       - redis
@@ -32,7 +36,8 @@ services:
       - back-tier
 
   worker:
-    build: ../worker/
+#    build: ../worker/
+    image: ${WORKER_IMAGE}
     depends_on:
       - redis
       - db
