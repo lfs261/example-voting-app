@@ -66,7 +66,7 @@ pipeline {
                 echo 'Building and Publishing Docker Image'
                 script {
                   docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
-                    def customImage = docker.build("initcron/result:${env.BRANCH_NAME}-${env.BUILD_ID}", "./result")
+                    def customImage = docker.build("initcron/result:${env.BRANCH_NAME}-v${env.BUILD_ID}", "./result")
                     customImage.push("${env.BRANCH_NAME}")
                     customImage.push()
                   }
