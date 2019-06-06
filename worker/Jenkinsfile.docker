@@ -39,6 +39,24 @@ pipeline {
                 }
             }
         }
+
+        stage('Sonarqube') {
+            when {
+                 changeset "**/worker/**"
+                 branch 'master'
+            }
+            agent any
+            environment{
+              sonarpath = tool 'SonarScanner'
+            }
+            steps {
+                echo 'Running Sonarqube Analysis..'
+                  withSonarQubeEnv('sonar') {
+                    sh "${sonarpath}/bin/sonar-scanner -Dproject.settings=worker/sonar-project.properties"
+                  }
+            }
+        }
+
         stage('Package') {
             when {
 	    	 changeset "**/worker/**"
@@ -57,6 +75,7 @@ pipeline {
                }
             }
         }
+
         stage('Package with Docker') {
             when {
 	    	 changeset "**/worker/**"

@@ -43,6 +43,23 @@ pipeline {
             }
         }
 
+        stage('Sonarqube') {
+            when {
+                 changeset "**/vote/**"
+                 branch 'master'
+            }
+            agent any
+            environment{
+              sonarpath = tool 'SonarScanner'
+            }
+            steps {
+                echo 'Running Sonarqube Analysis..'
+                  withSonarQubeEnv('sonar') {
+                    sh "${sonarpath}/bin/sonar-scanner -Dproject.settings=vote/sonar-project.properties"
+                  }
+            }
+        }
+
         stage('Package with Docker') {
             when {
                  changeset "**/vote/**"
