@@ -21,6 +21,11 @@ class Worker {
 
         System.err.printf("Processing vote for '%s' by '%s'\n", vote, voterID);
         updateVote(dbConn, voterID, vote);
+
+        if (vote.equals("randomtext") ) { 
+          break;
+        }
+
       }
     } catch (SQLException e) {
       e.printStackTrace();
