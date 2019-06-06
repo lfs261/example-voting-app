@@ -14,7 +14,6 @@ services:
       - front-tier
 
   vote:
-#    build: ../vote/
     image: ${VOTE_IMAGE}
     ports: ["80"]
     depends_on:
@@ -25,7 +24,6 @@ services:
       - back-tier
 
   result:
-#    build: ../result/
     image: ${RESULT_IMAGE}
     ports: ["80"]
     depends_on:
@@ -36,7 +34,6 @@ services:
       - back-tier
 
   worker:
-#    build: ../worker/
     image: ${WORKER_IMAGE}
     depends_on:
       - redis
@@ -52,8 +49,6 @@ services:
 
   db:
     image: postgres:9.4
-    volumes:
-      - "db-data:/var/lib/postgresql/data"
     networks:
       - back-tier
 
