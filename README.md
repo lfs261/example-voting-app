@@ -1,7 +1,7 @@
 Example Voting App
 =========
 
-Test 2
+Test 4
 
 Getting started
 ---------------
