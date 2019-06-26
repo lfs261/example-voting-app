@@ -21,7 +21,7 @@ pipeline{
             steps{
                 echo 'running unit tests on worker app'
                 dir('result'){
-                  sh 'mvn clean test'
+                  sh 'npm test'
                 }
             }
         }
