@@ -1,5 +1,4 @@
 Example Voting App
-=========
 #Testing by sasikumar
 Getting started
 ---------------
