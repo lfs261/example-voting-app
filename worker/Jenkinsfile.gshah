@@ -60,6 +60,13 @@ pipeline{
               }
             }
         }
+        stage('deploy'){
+            agent any
+            steps{
+              echo 'Deploy with Docker Compose'
+              sh 'docker-compose up -d'
+            }
+        }
     }
     
     post{
