@@ -5,6 +5,7 @@ pipeline{
 
     tools{
       maven 'Maven 3.6.1'
+      nodejs 'NodeJS 8.9.0'
     }
     
     stages{
@@ -29,6 +30,24 @@ pipeline{
                 echo 'packaging worker app into a jarfile'
                 dir('worker'){
                   sh 'mvn package -DskipTests'
+                  archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+                }
+            }
+        }
+        stage('result-build'){
+            steps{
+                echo 'building result app'
+                dir('result'){
+                  sh 'npm install'
+                  sh 'npm ls'
+                }
+            }
+        }
+        stage('result-test'){
+            steps{
+                echo 'run unit tests on result app'
+                dir('result'){
+                  sh 'npm test'
                 }
             }
         }
