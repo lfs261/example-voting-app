@@ -1,12 +1,13 @@
 pipeline{
     
-    agent any
-
-
-    tools{
-      maven 'Maven 3.6.1'
-      nodejs 'NodeJS 8.9.0'
+    agent{
+       docker{
+         image 'maven:3.6.1-jdk-8-slim'
+         args '-v $HOME/.m2:/root/.m2'
+       }
+  
     }
+
     
     stages{
         stage('build'){
@@ -31,23 +32,6 @@ pipeline{
                 dir('worker'){
                   sh 'mvn package -DskipTests'
                   archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
-                }
-            }
-        }
-        stage('result-build'){
-            steps{
-                echo 'building result app'
-                dir('result'){
-                  sh 'npm install'
-                  sh 'npm ls'
-                }
-            }
-        }
-        stage('result-test'){
-            steps{
-                echo 'run unit tests on result app'
-                dir('result'){
-                  sh 'npm test'
                 }
             }
         }
