@@ -1,0 +1,34 @@
+version: "3"
+
+
+volumes:
+   db-data:
+
+services:
+    vote:
+      image: schoolofdevops/vote:v7
+      ports:
+        - 5000:80
+      depends_on:
+        - redis
+
+    redis:
+      image: redis:alpine
+
+
+    worker:
+      image: initcron/worker:latest
+      depends_on:
+        - redis
+
+    db:
+      image: postgres:9.4
+      volumes:
+        - "db-data:/var/lib/postgresql/data"
+
+    results:
+      image: schoolofdevops/vote-result
+      ports:
+        - 5001:80
+      depends_on:
+        - db
