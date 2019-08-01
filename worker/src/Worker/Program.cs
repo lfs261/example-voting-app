@@ -8,6 +8,8 @@ using Newtonsoft.Json;
 using Npgsql;
 using StackExchange.Redis;
 
+// Adding a test
+
 namespace Worker
 {
     public class Program
