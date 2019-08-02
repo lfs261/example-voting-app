@@ -26,6 +26,10 @@ pipeline{
             steps
             {
                 echo 'stage 2'
+				dir('worker')
+				{
+					sh 'mvn test'
+				}
                 sleep 4
             }    
         }
@@ -34,6 +38,10 @@ pipeline{
             steps
             {
                 echo 'stage 3'
+				dir('worker')
+				{
+					sh 'mvn package'
+				}
                 sleep 5
             }    
         }
@@ -45,6 +53,7 @@ pipeline{
         always 
         { 
             echo 'pipeline is completed'
+			archiveArtifacts '*/target/*.jar'
         }
     }
     
