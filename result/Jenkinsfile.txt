@@ -1,0 +1,58 @@
+pipeline{
+    
+    agent any
+    
+	tools 
+	{
+        nodejs 'NodeJS 8.9.0'
+    }
+	
+    stages
+	{
+        stage(one)
+        {
+			when
+			{
+				changeset "**/result/**"
+			}
+            steps
+            {
+                echo 'stage 1'
+				dir('result')
+				{
+					sh 'mvn compile'
+				}
+                sleep 3
+            }    
+        }
+        stage(two)
+        {
+			when 
+			{
+				changeset "**/result/**"
+			}
+            steps
+            {
+                echo 'stage 2'
+				dir('result')
+				{
+					sh 'mvn package -DSkipTests'
+				}
+                sleep 4
+            }    
+        }
+       
+        
+    }
+    
+    post 
+    { 
+        always 
+        { 
+            echo 'pipeline is completed'
+			
+        }
+    }
+    
+    
+}
