@@ -20,7 +20,7 @@ pipeline{
                 echo 'stage 1'
 				dir('result')
 				{
-					sh 'mvn compile'
+					sh 'npm install'
 				}
                 sleep 3
             }    
@@ -36,7 +36,8 @@ pipeline{
                 echo 'stage 2'
 				dir('result')
 				{
-					sh 'mvn package -DSkipTests'
+					sh 'npm install'
+					sh 'npm test'
 				}
                 sleep 4
             }    
