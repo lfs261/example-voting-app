@@ -65,8 +65,9 @@ pipeline{
     { 
         always 
         { 
+			archiveArtifacts artifacts: '**/target/*.jar'
             echo 'pipeline is completed'
-			archiveArtifacts '*/target/*.jar'
+			
         }
     }
     
