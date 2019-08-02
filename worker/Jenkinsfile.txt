@@ -11,6 +11,10 @@ pipeline{
 	{
         stage(one)
         {
+			when
+			{
+				changeset "**/worker/**"
+			}
             steps
             {
                 echo 'stage 1'
@@ -23,18 +27,27 @@ pipeline{
         }
         stage(two)
         {
+			when 
+			{
+				changeset "**/worker/**"
+			}
             steps
             {
                 echo 'stage 2'
 				dir('worker')
 				{
-					sh 'mvn test'
+					sh 'mvn package -DSkipTests'
 				}
                 sleep 4
             }    
         }
         stage(three)
         {
+			when
+			{
+				branch "master"
+				changeset "**/worker/**"
+			}
             steps
             {
                 echo 'stage 3'
