@@ -1,0 +1,52 @@
+pipeline{
+    
+    agent any
+    
+	tools 
+	{
+        maven 'Maven 3.6.1' 
+    }
+	
+    stages
+	{
+        stage(one)
+        {
+            steps
+            {
+                echo 'stage 1'
+				dir('worker')
+				{
+					sh 'mvn compile'
+				}
+                sleep 3
+            }    
+        }
+        stage(two)
+        {
+            steps
+            {
+                echo 'stage 2'
+                sleep 4
+            }    
+        }
+        stage(three)
+        {
+            steps
+            {
+                echo 'stage 3'
+                sleep 5
+            }    
+        }
+        
+    }
+    
+    post 
+    { 
+        always 
+        { 
+            echo 'pipeline is completed'
+        }
+    }
+    
+    
+}
