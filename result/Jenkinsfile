@@ -1,0 +1,28 @@
+pipeline{
+    agent any
+
+    tools{
+    nodeJS 'nodeJS 8.9.0'
+    }
+
+    stages{
+        stage('build'){
+            steps{
+                echo 'Building nodeJS'
+                dir('result'){
+                    sh 'npm install'
+                }
+            }
+        }
+        stage('test'){
+            steps{
+                echo 'Testing nodeJS'
+                dir('result'){
+                    sh 'npm install'
+                    sh 'npm test'
+                }
+            }
+        }
+    }
+
+}
