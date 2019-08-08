@@ -19,7 +19,7 @@ pipeline{
         }
         stage("test"){
             when{
-                changeset "**/result/**"
+                changeset "**/worker/**"
             }
             steps{
                 echo "Testing worker app..."
@@ -31,7 +31,7 @@ pipeline{
         stage("package"){
             when{
                 branch 'master'
-                changeset "**/result/**"
+                changeset "**/worker/**"
             }
             steps{
                 echo "Packaging worker app..."
