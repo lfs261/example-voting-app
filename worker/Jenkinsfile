@@ -1,0 +1,37 @@
+pipeline {
+    agent any
+    tools {
+        maven 'Maven 3.3'
+    }
+    stages {
+        stage("build") {
+            steps{
+                 echo 'Building worker project'
+                 dir ("worker") {
+                     sh 'mvn compile'
+                 }
+            }
+        }
+        stage("test") {
+            steps{
+                 echo 'Testing worker Project'
+                 dir ("worker") {
+                     sh 'mvn test'
+                 }
+            }
+        }
+        stage("package") {
+            steps{
+                 echo 'Packaging Worker project'
+                 dir ("worker") {
+                     sh 'mvn package'
+                 }
+            }
+        }
+    }
+    post {
+        always {
+            echo ' I will always say hello'
+        }
+    }
+}
