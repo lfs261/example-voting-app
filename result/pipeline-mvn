@@ -1,0 +1,51 @@
+pipeline {
+    agent any
+    tools{
+        nodejs 'NodeJS 8.9.0'
+    }
+    stages{
+        stage('Build'){
+	    when{
+		changeset '**/result/**'
+	    }
+            steps{
+                echo "Building worker app..."
+                dir("result"){
+                  sh 'npm install'
+                }
+            }
+        }
+        stage('Test'){
+	    when{
+                changeset '**/result/**'
+            }
+            steps{
+                echo "Testing worker app..."
+                dir("result"){
+		  sh 'npm test'
+		}
+            }
+        }
+        stage('Package'){
+	    when{
+                changeset '**/result/**'
+		branch master
+            }
+            steps{
+                echo "Packaging worker app..."
+                dir("result"){
+		  sh 'mvn package -DskipTests'
+		  archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+		  echo 'Building multibranch pipeline for worker is completed..'
+		}
+            }
+        }
+    }
+    post{
+        always{
+            echo "Runs always...."
+        }
+    }
+}
+
+
