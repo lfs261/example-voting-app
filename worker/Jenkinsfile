@@ -26,7 +26,7 @@ pipeline{
             steps{
                 echo "Package worker"
                 dir ("worker") {
-                    sh 'mvn package'
+                    sh 'mvn package -DskipTests'
 
                 }
             }
