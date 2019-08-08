@@ -1,9 +1,9 @@
 pipeline{
-    agent any
+
+    agent {
+        docker { image 'maven:alpine' }
+    }
  
-    tools{
-	maven 'Maven 3.6.1'
-    }   
     stages{
         stage('build'){
 	    when{
