@@ -28,7 +28,6 @@ pipeline {
 		  archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
 		  echo 'Building multibranch pipeline for worker is completed..'
 		}
-                sleep 2
             }
         }
     }
