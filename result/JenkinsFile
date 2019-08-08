@@ -1,0 +1,36 @@
+pipeline{
+    agent any
+
+    tools{
+        nodejs 'NodeJS 12.8.0'
+    }
+    stages{
+        stage('build'){
+	    when{
+		changeset "**/result/**"
+	    }
+            steps{
+                echo "Hello! building result"
+                dir("result"){
+                    sh 'npm install'
+                }
+            }
+        }
+        stage('test'){
+	    when{
+                changeset "**/result/**"
+            }
+            steps{
+                echo "Hello! testing result"
+                dir("result"){
+                    sh 'npm test'
+                }
+            }
+        }
+    }
+    post{
+        always{
+            echo "This pipeline run is completed.."
+        }
+    }
+}
