@@ -17,7 +17,7 @@ pipeline{
             steps{
                 echo "Hello! testing worker"
                 dir("worker"){
-		    sh 'mvn test'
+		    sh 'mvn clean test'
 		}
             }
         }
@@ -25,7 +25,7 @@ pipeline{
             steps{
                 echo "Hello! packaging worker"
                 dir("worker"){
-		    sh 'mvn package'
+		    sh 'mvn package -DskipTests'
 		}
             }
         }
