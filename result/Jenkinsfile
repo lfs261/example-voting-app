@@ -1,8 +1,10 @@
-pipeline{
-    agent any 
-    tools {
-        nodejs "NodeJs 8.9.0"
-    }
+pipeline {
+    agent {
+        docker {
+            image 'node:8.16-alpine'
+        }
+    } 
+    
     stages{
         stage("build"){
             when {
