@@ -1,0 +1,39 @@
+pipeline{
+    agent{
+       docker {image 'node:lts-slim'}
+    }
+    
+    tools{
+      nodejs 'NodeJS 12.8.0'
+    }
+    stages{
+        stage("build"){
+            when {
+               changeset "**/result/**"
+            }
+            steps{
+                echo "Building worker app....."
+                dir("result"){
+                  sh 'npm install'
+               }
+            }
+        }
+        stage("test"){
+            when {
+               changeset "**/result/**"
+            }
+            steps{
+                echo "Testing worker app....."
+                dir("result"){
+                  sh 'npm test'
+              }
+            }
+        }
+    }
+    
+    post{
+        always{
+            echo "This pipeline is completed...."
+        }
+    }
+}

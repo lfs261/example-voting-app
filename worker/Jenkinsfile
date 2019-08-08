@@ -1,0 +1,51 @@
+pipeline{
+  agent{
+       docker {image 'maven:3.6.1-jdk-8-slim'}
+    } 
+    tools{
+      maven 'maven 3.6.1'
+    }
+    stages{
+        stage("build"){
+            when{
+               changeset "**/result/**"
+        }
+            steps{
+                echo "Building worker app....."
+                dir("worker"){
+                  sh 'mvn compile'
+               }
+            }
+        }
+        stage("test"){
+            when{
+               changeset "**/result/**"
+            }
+            steps{
+                echo "Testing worker app....."
+                dir("worker"){
+                  sh 'mvn clean test'
+              }
+            }
+        }
+        stage("package"){
+            when{
+               changeset "**/result/**"
+               branch 'master'
+            }
+            steps{
+                echo "Packaging worker app....."
+                dir("worker"){
+                  sh 'mvn package -DskipTests'
+                  archiveArtifacts artifacts: '**/target/*.jar'
+              }
+            }
+        }
+    }
+    
+    post{
+        always{
+            echo "This pipeline is completed...."
+        }
+    }
+}
