@@ -30,7 +30,7 @@ pipeline{
         }
         stage("package"){
             when{
-                branch : 'master'
+                branch 'master'
                 changeset "**/result/**"
             }
             steps{
