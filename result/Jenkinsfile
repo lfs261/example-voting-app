@@ -5,6 +5,9 @@ pipeline{
     }
     stages{
         stage("build"){
+            when {
+                changeset "result/**"
+            }
             steps{
                 echo "Building result"
                 dir ("result") {
@@ -14,6 +17,9 @@ pipeline{
             }
         }
         stage("test"){
+            when {
+                changeset "result/**"
+            }
             steps{
                 echo "Testing result"
                 dir ("result") {
