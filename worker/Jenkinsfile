@@ -27,11 +27,11 @@ pipeline{
                 echo "Package worker"
                 dir ("worker") {
                     sh 'mvn package -DskipTests'
+                    archiveArtifacts artifacts:'**/target/*.jar'
 
                 }
             }
         }
-
     }
     
     post{
