@@ -15,12 +15,19 @@ pipeline {
         stage('Test'){
             steps{
                 echo "Testing worker app..."
-                clean test
+                dir("worker"){
+		  sh 'mvn clean test'
+		}
             }
         }
         stage('Package'){
             steps{
                 echo "Packaging worker app..."
+                dir("worker"){
+		  sh 'mvn package -DskipTests'
+		  archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+		  echo 'Building multibranch pipeline for worker is completed..'
+		}
                 sleep 2
             }
         }
