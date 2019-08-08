@@ -1,10 +1,11 @@
 pipeline{
     agent{
         docker{
-        image 'maven:3.6.1-jdk-8-slim'
-         }
-    }
-     stages{
+           image 'maven:3.6.1-jdk-8-slim'
+        }
+      }   
+
+stages{
         stage("build"){
             when{
                 changeset "**/worker/**"
