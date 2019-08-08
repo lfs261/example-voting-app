@@ -17,13 +17,17 @@ pipeline{
         stage("test"){
             steps{
                 echo "Testing worker app..."
-                sleep 3 
+                dir("worker"){
+                    sh 'mvn clean test'
+                }
             }
         }
         stage("package"){
             steps{
                 echo "Packaging worker app..."
-                sleep 7
+                dir('worker'){
+                    sh 'mvn package -DskipTests'
+                }
             }
         }
 
