@@ -16,13 +16,17 @@ pipeline{
         stage('test'){
             steps{
                 echo "Hello! testing worker"
-                sleep 3
+                dir("worker"){
+		    sh 'mvn test'
+		}
             }
         }
         stage('package'){
             steps{
                 echo "Hello! packaging worker"
-                sleep 2
+                dir("worker"){
+		    sh 'mvn package'
+		}
             }
         }
     }
