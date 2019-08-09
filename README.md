@@ -1,6 +1,9 @@
 Example Voting App
 =========
 
+This is a sample voting app with name instavote. 
+This app contains five services. 
+
 Getting started
 ---------------
 
