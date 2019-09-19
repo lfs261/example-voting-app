@@ -1,0 +1,75 @@
+pipeline{
+    
+    agent any
+    
+	tools 
+	{
+        maven 'Maven 3.6.1' 
+    }
+	
+    stages
+	{
+        stage(one)
+        {
+			when
+			{
+				changeset "**/worker/**"
+			}
+            steps
+            {
+                echo 'stage 1'
+				dir('worker')
+				{
+					sh 'mvn compile'
+				}
+                sleep 3
+            }    
+        }
+        stage(two)
+        {
+			when 
+			{
+				changeset "**/worker/**"
+			}
+            steps
+            {
+                echo 'stage 2'
+				dir('worker')
+				{
+					sh 'mvn package -DSkipTests'
+				}
+                sleep 4
+            }    
+        }
+        stage(three)
+        {
+			when
+			{
+				branch "master"
+				changeset "**/worker/**"
+			}
+            steps
+            {
+                echo 'stage 3'
+				dir('worker')
+				{
+					sh 'mvn package'
+				}
+                sleep 5
+            }    
+        }
+        
+    }
+    
+    post 
+    { 
+        always 
+        { 
+			archiveArtifacts artifacts: '**/target/*.jar'
+            echo 'pipeline is completed'
+			
+        }
+    }
+    
+    
+}

@@ -1,0 +1,59 @@
+pipeline{
+    
+    agent any
+    
+	tools 
+	{
+        nodejs 'NodeJS 8.9.0'
+    }
+	
+    stages
+	{
+        stage(one)
+        {
+			when
+			{
+				changeset "**/result/**"
+			}
+            steps
+            {
+                echo 'stage 1'
+				dir('result')
+				{
+					sh 'npm install'
+				}
+                sleep 3
+            }    
+        }
+        stage(two)
+        {
+			when 
+			{
+				changeset "**/result/**"
+			}
+            steps
+            {
+                echo 'stage 2'
+				dir('result')
+				{
+					sh 'npm install'
+					sh 'npm test'
+				}
+                sleep 4
+            }    
+        }
+       
+        
+    }
+    
+    post 
+    { 
+        always 
+        { 
+            echo 'pipeline is completed'
+			
+        }
+    }
+    
+    
+}
