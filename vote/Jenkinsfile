@@ -14,7 +14,7 @@ agent{
             steps{
                 echo 'Compiling vote app'
                 dir('vote'){
-                  sh 'pip install -i requirements.txt'
+                  sh 'pip install -r requirements.txt'
                 }
             }
         }
@@ -25,7 +25,7 @@ agent{
             steps{
                 echo 'Running Unit Test on vote app'
                 dir('vote'){
-                  sh 'nosetest -v'
+                  sh 'nosetests -v'
                 }
             }
         }
