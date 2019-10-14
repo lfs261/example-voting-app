@@ -1,0 +1,54 @@
+pipeline {
+  agent any
+
+  tools{
+    maven 'maven3.6.1'
+
+  }
+
+  stages{
+      stage(build){
+        when{
+            changeset "**/worker/**"
+          }
+          steps{
+              echo 'Building  worker app..'
+              dir('worker'){
+                sh 'mvn compile'
+              }
+          }
+      }
+      stage(test){
+        when{
+            changeset "**/worker/**"
+          }
+          steps{
+              echo 'Running Unit Tets on worker app..'
+              dir('worker'){
+                sh 'mvn clean test'
+              }
+
+          }
+      }
+      stage(package){
+        when{
+	    branch 'master'
+            changeset "**/worker/**"
+          }
+          steps{
+              echo 'Packaging worker app'
+              dir('worker'){
+                sh 'mvn package'
+              }
+
+          }
+      }
+  }
+
+  post{
+    always{
+        echo 'Building multibranch pipeline for worker is completed..'
+	
+    }
+  }
+}
