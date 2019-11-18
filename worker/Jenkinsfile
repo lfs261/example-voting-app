@@ -18,14 +18,14 @@ pipeline {
       stage(test){
           steps{
               echo 'Testing on worker app'
-              sh 'mvn clean test'
+              sh 'mvn clean test -f worker/pom.xml'
 
           }
       }
       stage(package){
           steps{
               echo 'Packaging worker app'
-              sh 'mvn package _DskipTests'
+              sh 'mvn package _DskipTests -f worker/pom.xml'
 
           }
       }
