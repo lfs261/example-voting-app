@@ -37,7 +37,8 @@ pipeline {
 
   post{
     always{
-        echo 'Building multibranch pipeline for worker is completed..'
+        echo 'pipeline for worker is completed..'
+        archiveArtifacts '**/target/**.jar'
     }
   }
 }
