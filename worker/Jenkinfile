@@ -1,0 +1,55 @@
+pipeline {
+  agent any
+
+  tools{
+    maven 'Maven 3.6.2'
+
+  }
+
+  stages{
+      stage(one){
+        when{
+            changeset "**/worker/**"
+          }
+
+        steps{
+          echo 'Compiling worker app..'
+          dir('worker'){
+            sh 'mvn compile'
+          }
+        }
+      }
+      stage(two){
+        when{
+          changeset "**/worker/**"
+        }
+        steps{
+          echo 'Running Unit Tets on worker app..'
+          dir('worker'){
+            sh 'mvn clean test'
+           }
+
+          }
+      }
+      stage(three){
+        when{
+          branch 'master'
+          changeset "**/worker/**"
+        }
+        steps{
+          echo 'Packaging worker app'
+          dir('worker'){
+            sh 'mvn package -DskipTests'
+            archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+          }
+
+        }
+      }
+  }
+
+  post{
+    always{
+        echo 'Building multibranch pipeline for worker is completed..'
+    }
+  }
+}
