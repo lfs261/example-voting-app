@@ -24,6 +24,9 @@ pipeline {
           }
       }
       stage(package){
+          when {
+              branch 'master'
+          }
           steps{
               echo 'Package'
               dir('worker'){
