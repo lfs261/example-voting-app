@@ -1,0 +1,44 @@
+pipeline {
+  agent any
+
+  tools{
+    maven 'Maven 3.6.2'
+
+  }
+
+  stages{
+      stage(build){
+          steps{
+              echo 'Compiling worker app from new branch'
+              dir('worker'){
+                sh 'mvn compile'
+              }
+          }
+      }
+      stage(test){
+          steps{
+              echo 'Testing on worker app from new branch'
+            dir('worker'){
+              sh 'mvn clean test'
+            }
+
+          }
+      }
+      stage(package){
+          steps{
+              echo 'Packaging worker app'
+            dir('worker'){
+              sh 'mvn package -DskipTests '
+            }
+
+          }
+      }
+  }
+
+  post{
+    always{
+        echo 'pipeline for worker is completed..'
+        archiveArtifacts '**/target/**.jar'
+    }
+  }
+}

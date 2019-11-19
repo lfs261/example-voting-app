@@ -1,6 +1,8 @@
 Example Voting App
 =========
 
+Just For testing polling setup
+
 Getting started
 ---------------
 
