@@ -1,0 +1,51 @@
+pipeline{
+    agent any
+
+    tools{
+    	maven 'maven 3.6.1'
+    }
+    
+    stages{
+        
+        stage("One"){
+            steps{
+                echo "Hello pipeline as a code stage one"
+                dir("worker"){
+                	sh 'mvn compile'
+                }
+            }
+        }
+
+        stage("Two"){
+            steps{
+                echo "Hello pipeline as a code stage two"
+                dir("worker"){
+                        sh 'mvn clean test'
+                }
+            }
+        }
+
+
+        stage("Three"){
+            steps{
+                echo "Hello pipeline as a code stage three"
+                dir("worker"){
+                        sh 'mvn package -DskipTests'
+                }
+            }
+        }
+
+        
+            }
+
+
+	post{
+		always{
+			archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+			echo 'Building multibranch pipeline for worker is completed..'
+		}
+	}
+
+        }
+    
+

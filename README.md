@@ -1,5 +1,12 @@
-Example Voting App
+### Entering text for testing only
+
+
+
+#########Example Voting App
 =========
+
+##this has been added to see if commits can be pushed to master
+
 
 Getting started
 ---------------
