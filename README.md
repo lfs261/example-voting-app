@@ -1,4 +1,4 @@
-Example Voting App
+Example Voting App (Trunk based development)
 =========
 
 Getting started
