@@ -15,7 +15,7 @@ pipeline{
       steps{
         dir('result'){
           echo 'building result app'
-          npm install
+         
         }
       }
     }
