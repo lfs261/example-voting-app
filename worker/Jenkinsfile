@@ -15,15 +15,21 @@ pipeline{
       }
     }
    
-    stage(two){
+    stage(test){
       steps{
         echo 'Running Unit test on worker app'
+        dir('worker'){
+          sh 'mvn clean test'
+        }
       }
     }
 
     stage(three){
       steps{
         echo 'Packaging worker app'
+        dir('worker'){
+          sh 'mvn package'
+        }
       }
     }   
   }
