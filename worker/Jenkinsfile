@@ -24,7 +24,7 @@ pipeline{
       }
     }
 
-    stage(three){
+    stage(package){
       steps{
         echo 'Packaging worker app'
         dir('worker'){
