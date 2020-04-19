@@ -1,0 +1,35 @@
+pipeline{
+  stages{
+    
+    stage(build){
+      when{
+       changeset "**/result/**"
+      }
+
+      steps{
+        dir('result'){
+          echo 'building result app'
+          npm install
+        }
+      }
+    }
+    
+    stage(test){
+      when{ changeset "**/result/**"}
+      
+      steps{
+        dir('result'){
+          echo 'testing result-app'
+          npm install
+          npm test
+        }
+      }
+    }
+  }
+
+  post{
+    always{
+      echo 'result pipeline completed...'
+    }
+  }
+}
