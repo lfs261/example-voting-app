@@ -4,14 +4,15 @@ pipeline {
 
     stages {
 
-	    agent {
-        	docker {
-	                image "python:2.7.16-slim"
-        	        args "--user root"
-	        }
-	}	
-
         stage('build') { 
+
+            agent {
+                docker {
+                        image "python:2.7.16-slim"
+                        args "--user root"
+                }
+        }
+
 	    when{
 	        changeset "**/vote/**"
 	    }
