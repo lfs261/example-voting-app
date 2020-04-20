@@ -38,5 +38,11 @@ pipeline{
     always{
       echo 'result pipeline completed...'
     }
+    success{
+      slackSend (channel: "lfs261", message: "Build Succeeded - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
+    }
+    failure{
+      slackSend (channel: "lfs261", message: "Build Failed! - ${env.JOB_NAMe} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open)")
+    }
   }
 }
