@@ -184,9 +184,9 @@ pipeline {
 				dir("vote"){
 					sh "pip install -r requirements.txt"
 					sh "nosetests -v"
-					}
 				}
 			}
+		}
 
 		stage('vote-docker-package') {
 			agent any
@@ -203,12 +203,25 @@ pipeline {
                                         	def workerImage = docker.build("hugoaquinonavarrete/vote:v${env.BUILD_ID}","./vote")
                             	        	workerImage.push()
                                 	        workerImage.push("${env.BRANCH_NAME}")
-						}
 					}
 				}
 			}
-	
 		}
+
+
+                stage('deploy to dev') {
+                        agent any
+
+                        when{
+				branch "master"
+                        }
+                        steps {
+                                echo "Deploy instavote app with docker compose"
+                                sh "docker-compose up -d"
+                        }
+                }
+
+	}
 
 	post{
 		always{
