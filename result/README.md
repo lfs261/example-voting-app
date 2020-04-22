@@ -8,3 +8,5 @@ Follow these steps to build and run this app,
 	* Run "npm test" to run unit tests
 	* Run "npm start"
 	* Application would start on port 4000
+
+## Last revision: April 22, 2020

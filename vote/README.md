@@ -8,3 +8,5 @@ Follow these steps to build and run this app,
 	* Run "nosetests -v" to run unit tests
 	* Run "gunicorn app:app -b 0.0.0.0:80" to run de app
 	* Application would start on port 80 as specified above
+
+## Last update: April 22, 2020
