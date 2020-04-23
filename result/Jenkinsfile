@@ -1,0 +1,44 @@
+pipeline {
+   agent {
+   	docker{
+	   image 'node:8.16.0-alpine'
+	}
+   }
+   
+   stages {
+        stage('build') {
+	    when{
+	     changeset "**/result/**"
+	    }
+            steps {
+                echo 'compiling result App'
+                dir('result'){
+		   sh 'npm install'
+		}
+            }
+        }
+        stage('test') {
+	    when{
+	     changeset "**/result/**"
+	    }
+            steps {
+                echo 'Running unit tests on result App'
+		    dir('result'){
+		    	sh 'npm test'
+		    }
+            }
+        }
+    } 
+
+    post {	
+        always {
+            echo 'the pipeline step for result App is completed .... '
+        }
+	failure{
+	    echo 'the pipeline step is failed and sending failure message  .... '
+	}
+	success{
+	    echo 'the pipeline step is failed and sending success message  .... '
+	}
+    }
+}

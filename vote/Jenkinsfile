@@ -1,0 +1,44 @@
+pipeline {
+   agent {
+   	docker{
+	   image 'python:2.7.16-slim'
+	}
+   }
+   
+   stages {
+        stage('build') {
+	    when{
+	     changeset "**/vote/**"
+	    }
+            steps {
+                echo 'compiling vote App'
+                dir('vote'){
+		   sh 'pip install -r requirements.txt'
+		}
+            }
+        }
+        stage('test') {
+	    when{
+	     changeset "**/vote/**"
+	    }
+            steps {
+                echo 'Running unit tests on vote App'
+		    dir('vote'){
+		    	sh 'nosetests -v'
+		    }
+            }
+        }
+    } 
+
+    post {	
+        always {
+            echo 'the pipeline step for vote App is completed .... '
+        }
+	failure{
+	    echo 'the pipeline step is failed and sending failure message  .... '
+	}
+	success{
+	    echo 'the pipeline step is failed and sending success message  .... '
+	}
+    }
+}
