@@ -2,7 +2,7 @@ pipeline {
 
     agent any
 
-    tools {
+    tools{
       maven "Maven 3.6.1"
     }
 
@@ -29,10 +29,10 @@ pipeline {
         }
     }
 
-post {
-    always{
-        echo "This pipeline run is complete."
-    }
+  post {
+      always{
+          echo "This pipeline run is complete."
+      }
 
-}
+  }
 }
