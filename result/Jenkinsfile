@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   tools{
-    nodeJS 'NodeJS 8.9.0'
+    nodejs 'NodeJS 8.9.0'
   }
 
   stages{
@@ -25,9 +25,11 @@ pipeline {
     steps{
         echo 'Running Unit Test on result app..'
         dir('result'){
+        sh 'npm install'
         sh 'npm test'
       }
     }
+  }
   }
 
   post{
