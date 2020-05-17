@@ -13,20 +13,24 @@ pipeline{
             steps{
                 echo "Compiling worker"
                 dir("worker") {
-                    sh "mvn compile";
+                    sh "mvn compile -DskpTests";
                 }
             }
         }
         stage("Test"){
             steps{
                 echo "Testing worker"
-                sleep 9;
+                dir("worker") {
+                    sh "mvn test";
+                }
             }
         }
         stage("Package"){
             steps{
                 echo "Packaging worker"
-                sleep 5;
+                dir("worker") {
+                    sh "mvn package -DskipTests";
+                }
             }
         }
     }
