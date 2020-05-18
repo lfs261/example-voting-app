@@ -49,5 +49,11 @@ pipeline{
         always{
             echo "========always========"
         }
+        success{
+            slackSend(channel:"devops",color: "#15A339", message:"<b>Build Success</b> \n\n Job Name : ${env.JOB_BASE_NAME} \n Build Number: ${env.BUILD_NUMBER} \n Branch: ${env.BRANCH_NAME} \n Build URL: (<${env.BUILD_URL} | Open)")
+        }
+        failure{
+            slackSend(channel:"devops",color: "#F00A21", message:"<b>Build Success</b> \n\n Job Name : ${env.JOB_BASE_NAME} \n Build Number: ${env.BUILD_NUMBER} \n Branch: ${env.BRANCH_NAME} \n Build URL: (<${env.BUILD_URL} | Open)")
+        }
     }
 }
