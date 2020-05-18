@@ -10,9 +10,9 @@ pipeline{
     }
     stages{
         stage("Build"){
-            //when{
-            //    changeset "**/worker/**"
-            //}
+            when{
+                changeset "**/worker/**"
+            }
             steps{
                 echo "Compiling worker"
                 dir("worker") {
@@ -21,9 +21,9 @@ pipeline{
             }
         }
         stage("Test"){
-            //when{
-            //    changeset "**/worker/**"
-            //}
+            when{
+                changeset "**/worker/**"
+            }
             steps{
                 echo "Testing worker"
                 dir("worker") {
@@ -32,22 +32,21 @@ pipeline{
             }
         }
         stage("Package"){
-            // when{
-            //     branch "master"
-            //     changeset "**/worker/**"
-            // }
+            when{
+                branch "master"
+                changeset "**/worker/**"
+            }
             steps{
                 echo "Packaging worker"
                 dir("worker") {
                     sh "mvn package -DskipTests";
+                    archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
                 }
             }
         }
     }
     post{
         always{
-            archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
-            // junit 'build/reports/**/*.xml'
             echo "========always========"
         }
     }
