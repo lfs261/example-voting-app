@@ -32,10 +32,10 @@ pipeline{
             }
         }
         stage("Package"){
-            //when{
-            //    branch "master"
-            //    changeset "**/worker/**"
-            /}
+            // when{
+            //     branch "master"
+            //     changeset "**/worker/**"
+            // }
             steps{
                 echo "Packaging worker"
                 dir("worker") {
@@ -47,7 +47,7 @@ pipeline{
     post{
         always{
             archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
-            //junit 'build/reports/**/*.xml'
+            // junit 'build/reports/**/*.xml'
             echo "========always========"
         }
     }
