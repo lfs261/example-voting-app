@@ -50,10 +50,10 @@ pipeline{
             echo "========always========"
         }
         success{
-            slackSend(channel:"devops",color: "#15A339", message:"Build Success \n Job Name : ${env.JOB_NAME} \n Build Number: ${env.BUILD_NUMBER} \n Branch: env.BRANCH_NAME \n Build URL: (<${env.BUILD_URL} | Open)")
+            slackSend(channel:"devops",color: "#15A339", message:"Build Success \n Job Name : ${env.env.JOB_BASE_NAME} \n Build Number: ${env.BUILD_NUMBER} \n Branch: ${env.BRANCH_NAME} \n Build URL: (<${env.BUILD_URL} | Open)")
         }
         failure{
-            slackSend(channel:"devops",color: "#F00A21", message:"Build Success \n Job Name : ${env.JOB_NAME} \n Build Number: ${env.BUILD_NUMBER} \n Branch: env.BRANCH_NAME \n Build URL: (<${env.BUILD_URL} | Open)")
+            slackSend(channel:"devops",color: "#F00A21", message:"Build Success \n Job Name : ${env.env.JOB_BASE_NAME} \n Build Number: ${env.BUILD_NUMBER} \n Branch: ${env.BRANCH_NAME} \n Build URL: (<${env.BUILD_URL} | Open)")
         }
     }
 }
