@@ -2,3 +2,6 @@ Flask
 Redis
 gunicorn
 nose
+coverage
+nosexcover
+pylint
