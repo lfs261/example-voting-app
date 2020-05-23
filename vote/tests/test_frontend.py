@@ -27,3 +27,5 @@ class VoteUnitTest(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+# Adding a smaple comment
