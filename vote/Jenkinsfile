@@ -10,9 +10,9 @@ pipeline{
     }
     stages{
         stage("Build"){
-            when{
-                changeset "**/vote/**"
-            }
+            // when{
+            //     changeset "**/vote/**"
+            // }
             steps{
                 echo "Compiling vote"
                 dir("vote") {
@@ -21,14 +21,28 @@ pipeline{
             }
         }
         stage("Test"){
-            when{
-                changeset "**/vote/**"
-            }
+            // when{
+            //     changeset "**/vote/**"
+            // }
             steps{
                 echo "Testing vote"
                 dir("vote") {
                     sh "nosetests -v";
                 }
+            }
+        }
+        stage('Sonarqube') {
+            when {
+                 branch 'master'
+            }
+            environment{
+              sonarpath = tool 'SonarScanner'
+            }
+            steps {
+                echo 'Running Sonarqube Analysis..'
+                  withSonarQubeEnv('sonar') {
+                    sh "${sonarpath}/bin/sonar-scanner -Dproject.settings=vote/sonar-project.properties"
+                  }
             }
         }
     }
