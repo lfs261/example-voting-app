@@ -1,0 +1,80 @@
+pipeline {
+  agent none
+  environment{
+    PATH="$PATH:/usr/local/bin"
+  }
+  stages{
+    stage('build'){
+      agent { 
+        docker{
+          image 'maven:3.6.1-jdk-8-alpine'
+          args '-v $HOME/.m2:/root/.m2'
+        }
+      }
+      when{
+        changeset "**/worker/**"
+      }
+      steps{
+        echo 'Compiling worker app'
+        dir('worker'){
+          sh 'mvn compile'
+        }
+      }
+    }
+    stage('test'){
+      agent { 
+        docker{
+          image 'maven:3.6.1-jdk-8-alpine'
+          args '-v $HOME/.m2:/root/.m2'
+        }
+      }
+      when{
+        changeset "**/worker/**"
+      }
+      steps{
+        echo 'Running Unit tests on worker app'
+        dir('worker'){
+          sh 'mvn clean test'
+        }
+      }
+    }
+    stage('docker-package'){
+      agent any
+      when{
+        branch 'master'
+        changeset "**/worker/**"
+      }
+      steps{
+        echo 'Packing worker app with docker'
+        script{
+          docker.withRegistry('https://index.docker.io/v1/', 'dockerlogin'){
+            def workerImage = docker.build("minhviet/worker:v${env.BUILD_ID}", "./worker/")
+            workerImage.push()
+            workerImage.push("${env.BRANCH_NAME}")
+          }
+        }
+      }
+    }
+    stage('deploy to dev'){
+      agent any
+      when{
+        branch 'master'
+      }
+      steps{
+        echo 'Deploy instavote app with docker compose'
+        sh 'docker-compose up -d'
+      }
+    }
+  }
+  post {
+    always{
+      echo 'Pipeline successfully'
+    }
+    failure{
+      slackSend (channel: "general", message: "Build failed- ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
+    }
+    success{
+      slackSend (channel: "general", message: "Build successed- ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
+    }
+  }
+}

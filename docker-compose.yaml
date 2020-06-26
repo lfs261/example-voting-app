@@ -1,0 +1,47 @@
+version: "3.7"
+
+volumes:
+  db_data:
+
+networks:
+  - instavote:
+      driver: bridge
+
+services:
+  vote:
+    image: minhviet/vote:master
+    ports: 30080:80
+    networks:
+      - instavote
+    depends_on:
+      - redis
+  
+  redis:
+    image: redis:elpine
+    networks:
+      - instavote
+  
+  db:
+    image: postgresql:9.4
+    volumes:
+      - "db_data:/var/lib/postgresql/data"
+    networks:
+      - instavote
+
+  result:
+    image: minhviet/result:master
+    ports:
+      - 30081:80
+    networks:
+      - instavote
+    depends_on:
+      - db
+
+  worker:
+    image: minhviet/worker:master
+    networks:
+      - instavote
+    depends_on:
+      - redis
+      - db
+    
