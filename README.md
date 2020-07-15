@@ -1,6 +1,10 @@
 Example Voting App
 =========
 
+Adding the conditions for local
+
+This is a sample instavote application
+
 Getting started
 ---------------
 

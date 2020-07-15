@@ -10,7 +10,6 @@ class VoteUnitTest(unittest.TestCase):
         self.app = app.test_client()
         self.app.testing = True
 
-
     def test_home_status_code(self):
         """Assert that the home page loads successfully"""
         result = self.app.get('/')
@@ -28,3 +27,5 @@ class VoteUnitTest(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+# Adding a smaple comment
