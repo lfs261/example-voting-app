@@ -1,1 +1,1 @@
-## Worker java app
+## Worker app
