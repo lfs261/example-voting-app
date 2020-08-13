@@ -60,7 +60,6 @@ pipeline {
         }
         
         success {
-            archiveArtifacts artifacts: "**/target/*.jar", fingerprint: true
             slackSend (channel: "instavot-cd", message: "Build Succeeded - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
         }
     }
