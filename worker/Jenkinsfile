@@ -43,5 +43,9 @@ pipeline {
             echo "Build pipeline has finished!"
 
         }
+
+        success {
+            archiveArtifacts artifacts: "**/target/*.jar", fingerprint: true
+        }
     }
 }
