@@ -10,6 +10,9 @@ pipeline {
     stages {
         
         stage("build"){
+            when { 
+                changeset "**/worker/**"    
+            }
             steps{
                 echo "Compiling ..."
                 dir("worker"){
@@ -19,6 +22,9 @@ pipeline {
         }
         
         stage("test"){
+            when { 
+                changeset "**/worker/**"    
+            }
             steps{
                 echo "Unit testing ..."
                 dir("worker")
@@ -29,12 +35,17 @@ pipeline {
         }
         
         stage("package"){
+            when { 
+                branch "master"  
+                changeset "**/worker/**"    
+            }
             steps{
                 echo "Packaging ..."
                 dir("worker")
                 {
                     sh "mvn package -DskipTest"
                 }
+                archiveArtifacts artifacts: "**/target/*.jar", fingerprint: true
             }
         }
     }
@@ -44,8 +55,8 @@ pipeline {
 
         }
 
-        success {
-            archiveArtifacts artifacts: "**/target/*.jar", fingerprint: true
-        }
+        //success {
+        //    archiveArtifacts artifacts: "**/target/*.jar", fingerprint: true
+        //}
     }
 }
