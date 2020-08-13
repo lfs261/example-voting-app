@@ -52,11 +52,16 @@ pipeline {
     post {
         always {
             echo "Build pipeline has finished!"
-
+            slackSend (channel: "instavot-cd", message: "Build Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
         }
 
-        //success {
-        //    archiveArtifacts artifacts: "**/target/*.jar", fingerprint: true
-        //}
+        failure {
+            slackSend (channel: "instavot-cd", message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
+        }
+        
+        success {
+            archiveArtifacts artifacts: "**/target/*.jar", fingerprint: true
+            slackSend (channel: "instavot-cd", message: "Build Succeeded - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
+        }
     }
 }
