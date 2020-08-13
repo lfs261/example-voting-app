@@ -21,12 +21,20 @@ pipeline {
         stage("test"){
             steps{
                 echo "Unit testing ..."
+                dir("worker")
+                {
+                    sh "mvn clean test"
+                }                
             }
         }
         
         stage("package"){
             steps{
                 echo "Packaging ..."
+                dir("worker")
+                {
+                    sh "mvn package -DskipTest"
+                }
             }
         }
     }
