@@ -10,6 +10,9 @@ pipeline {
     stages {
         
         stage("build"){
+            when { 
+                changeset "**/worker/**"    
+            }
             steps{
                 echo "Compiling ..."
                 dir("worker"){
@@ -19,21 +22,45 @@ pipeline {
         }
         
         stage("test"){
+            when { 
+                changeset "**/worker/**"    
+            }
             steps{
                 echo "Unit testing ..."
+                dir("worker")
+                {
+                    sh "mvn clean test"
+                }                
             }
         }
         
         stage("package"){
+            when { 
+                branch "master"  
+                changeset "**/worker/**"    
+            }
             steps{
                 echo "Packaging ..."
+                dir("worker")
+                {
+                    sh "mvn package -DskipTest"
+                }
+                archiveArtifacts artifacts: "**/target/*.jar", fingerprint: true
             }
         }
     }
     post {
         always {
             echo "Build pipeline has finished!"
+            slackSend (channel: "instavot-cd", message: "Build Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
+        }
 
+        failure {
+            slackSend (channel: "instavot-cd", message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
+        }
+        
+        success {
+            slackSend (channel: "instavot-cd", message: "Build Succeeded - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
         }
     }
 }
