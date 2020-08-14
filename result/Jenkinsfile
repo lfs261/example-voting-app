@@ -27,7 +27,7 @@ pipeline {
                 echo "Unit testing ..."
                 dir("result")
                 {
-                    sh "npm instal && npm test"
+                    sh "npm install && npm test"
                 }                
             }
         }
