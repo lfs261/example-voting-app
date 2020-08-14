@@ -1,0 +1,51 @@
+pipeline {
+    
+    agent {
+        docker {
+            image 'maven:3.6.1-jdk-8-alpine'
+            args '-v $HOME/.m2:/root/.m2'
+        }
+    }
+    stages {
+        
+        stage("build"){
+            when { 
+                changeset "**/result/**"    
+            }
+            steps{
+                echo "Compiling ..."
+                dir("result"){
+                    sh "npm install"
+                }
+            }
+        }
+        
+        stage("test"){
+            when { 
+                changeset "**/result/**"    
+            }
+            steps{
+                echo "Unit testing ..."
+                dir("result")
+                {
+                    sh "npm instal && npm test"
+                }                
+            }
+        }
+
+    }
+    post {
+        always {
+            echo "Build pipeline has finished!"
+            slackSend (channel: "instavot-cd", message: "Build Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
+        }
+
+        failure {
+            slackSend (channel: "instavot-cd", message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
+        }
+        
+        success {
+            slackSend (channel: "instavot-cd", message: "Build Succeeded - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
+        }
+    }
+}
