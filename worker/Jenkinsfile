@@ -49,7 +49,7 @@ pipeline {
         }
         stage("docker-package"){
             when {
-                branch "master"
+                //branch "master"
                 changeset "**/worker/**"
             }
             steps{
