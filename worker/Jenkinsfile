@@ -70,7 +70,7 @@ pipeline {
                 echo "Packaging into docker container..."
 
                 script {
-                    docker.withRegistry("https://index.docker.io","dockerLogin"){
+                    docker.withRegistry("","dockerLogin"){
                         def workerImage = docker.build("grial1/workerbuild:v${env.BUILD_ID}","./worker")
                         workerImage.push()
                         workerImage.push("${env.BRANCH_NAME}")
