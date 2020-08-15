@@ -47,6 +47,25 @@ pipeline {
                 archiveArtifacts artifacts: "**/target/*.jar", fingerprint: true
             }
         }
+        stage("docker-package"){
+            when {
+                branch "master"
+                changeset "**/worker/**"
+            }
+            steps{
+                echo "Packaging into docker container..."
+
+                script {
+                    docker.withRegistry("https://index.docker.io/v1","dockerLogin"){
+                        def workerImage = docker.build("grial1/workerbuild:v${env.BUILD_ID}","./worker")
+                        workerImage.push()
+                        workerImage.push("${env.BRANCH_NAME}")
+                    }
+                }
+                //sh "mvn package -DskipTest"
+                //archiveArtifacts artifacts: "**/target/*.jar", fingerprint: true
+            }
+        }
     }
     post {
         always {
