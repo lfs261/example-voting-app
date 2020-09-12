@@ -2,26 +2,25 @@ pipeline {
     agent any
     
     tools{
-        maven '3.6.1'
+        maven 'maven 3.6.1'
     }
 
     stages{
         stage('build'){
             steps{
-                echo 'Compile'
+                echo 'Compiling'
                 dir('worker'){
-                    sh 'mvn compile'
-                }
+                    sh 'mvn compile'}
             }
         }
         stage('test'){
             steps{
-                echo 'Unit Test'              
+                echo 'Testing'              
             }
         }
         stage('package'){
             steps{
-                echo 'Packaging'                
+                echo 'Packaging '                
             }
         }
     }
