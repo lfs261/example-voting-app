@@ -34,13 +34,14 @@ pipeline {
             steps{
                 echo 'Packaging '       
                 dir('worker'){
-                    sh 'mvn package -DskipTests'}         
+                    sh 'mvn package -DskipTests'
+                    archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+                }         
             }
         }
     }
     post{
         always{
-            archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
             echo 'Complete!'
         }
     }
