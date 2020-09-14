@@ -1,9 +1,7 @@
 pipeline {
 
-    agent any
-
-    tools {
-      nodejs 'NodeJS 8.9.0'
+    agent {
+      image 'node:8.16.0-alpine'
     }
 
     stages {
