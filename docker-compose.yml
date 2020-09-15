@@ -36,9 +36,10 @@ services:
   result:
     image: alexmurr/result:master
     ports:
-      - 5001:4000
+      - 5001:80
     depends_on:
       - db
+      - worker
     networks:
       - instavote
 
