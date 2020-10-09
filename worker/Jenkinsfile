@@ -45,8 +45,14 @@ pipeline {
     }
     post{
         always{
-
             echo "Pipeline for worker is completed.."
         }
+        failure{
+          slackSend(channel: "#jenkinswithslack", message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
+        }
+        success{
+          slackSend(channel: "#jenkinswithslack", message: "Build Succeeded - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
+        }
+
     }
 }
