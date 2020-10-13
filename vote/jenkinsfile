@@ -1,0 +1,47 @@
+pipeline {
+
+agent {
+    docker {
+        image 'python:alpine'
+        args '-v $HOME/.m2:/root/.m2'
+    }
+}
+
+    stages {
+        stage('build') {
+          when{
+            changeset "**/vote/**"
+          }
+            steps{
+                echo "Compiling vote app"
+                dir('vote'){
+                  sh 'pip install -i requirements.txt'
+                }
+            }
+        }
+        stage('test') {
+          when{
+            changeset "**/vote/**"
+          }
+            steps{
+                echo "Running Unit Tests on vote app"
+                dir('vote'){
+                  sh 'nosetests -v'
+                }
+
+            }
+        }
+    }
+    post{
+        always{
+            echo "Pipeline for vote is completed.."
+        }
+        failure{
+          slackSend(channel: "jenkinswithslackfornodejs", message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
+        }
+        success{
+          slackSend(channel: "jenkinswithslackfornodejs", message: "Build Succeeded - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
+        }
+
+    }
+}
