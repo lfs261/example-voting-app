@@ -18,11 +18,17 @@
         stage('test'){
             steps{
                 echo "Running Unit Tests"
+                dir('worker'){
+                    sh 'mvn clean test'
+                }
             }
         }
         stage('package'){
             steps{
                 echo "Packaging worker app"
+                dir('worker'){
+                    sh 'mvn package '
+                }
             }
         }
     }
