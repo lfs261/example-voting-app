@@ -177,6 +177,24 @@ pipeline {
           }
       }
 
+    stage('vote integration') {
+
+      agent any
+
+        when{
+          changeset "**/vote/**"
+          branch 'master'
+        }
+          steps{
+              echo "Running integration Tests on vote app"
+              dir('vote'){
+                sh 'integration_test.sh'
+              }
+
+          }
+      }
+
+
       stage('vote-docker-package') {
         agent any
           when{
