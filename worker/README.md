@@ -10,5 +10,5 @@
 
 ### Package Status
 
-[![Build Status](http://35.199.8.226:8080/buildStatus/icon?job=instavote%2Fworker-package$subject=Package)](http://35.199.8.226:8080/job/instavote/job/worker-package/)
+[![Build Status](http://35.199.8.226:8080/buildStatus/icon?job=instavote%2Fworker-package&subject=Package)](http://35.199.8.226:8080/job/instavote/job/worker-package/)
 
