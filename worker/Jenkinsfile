@@ -7,10 +7,10 @@ pipeline {
 
     stages {
         stage('build') {
+			when {
+				changeset "**/worker/**"
+			}
             steps {
-				when {
-					changeset "**/worker/**"
-				}
                 echo 'Compiling worker app'
 				dir('worker') {
 					sh 'mvn compile'
