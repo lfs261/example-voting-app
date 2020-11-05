@@ -1,6 +1,8 @@
 Example Voting App
 =========
 
+This is a simple instavote application.
+
 Getting started
 ---------------
 
@@ -59,7 +61,3 @@ Note
 
 The voting application only accepts one vote per client. It does not register votes if a vote has already been submitted from a client.
 
-EDIT
-----
-
-Adding some text to initiate a build on Jenkins.
