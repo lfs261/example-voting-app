@@ -8,6 +8,9 @@ pipeline {
     stages {
         stage('build') {
             steps {
+				when {
+					changeset "**/worker/**"
+				}
                 echo 'Compiling worker app'
 				dir('worker') {
 					sh 'mvn compile'
@@ -15,6 +18,9 @@ pipeline {
             }
         }
         stage('test') {
+			when {
+				changeset "**/worker/**"
+			}
             steps {
                 echo 'Running Unit Test on worker app'
 				dir('worker') {
@@ -23,17 +29,21 @@ pipeline {
             }
         }
         stage('package') {
+			when {
+				branch 'master'
+				changeset "**/worker/**"
+			}
             steps {
                 echo 'Packaging worker app'
 				dir('worker') {
 					sh 'mvn package -DskipTests'
+            		archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
 				}
             }
         }
     }
     post {
         always {
-            archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
 			echo 'Pipeline for worker is complete ... '
         }
     }
