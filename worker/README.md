@@ -6,7 +6,7 @@
 
 ### Test Status
 
-[![Build Status](http://35.199.8.226:8080/buildStatus/icon?job=instavote%2Fworker-test)](http://35.199.8.226:8080/job/instavote/job/worker-test/)
+[![Build Status](http://35.199.8.226:8080/buildStatus/icon?job=instavote%2Fworker-test&subjet=UnitTest)](http://35.199.8.226:8080/job/instavote/job/worker-test/)
 
 ### Package Status
 
