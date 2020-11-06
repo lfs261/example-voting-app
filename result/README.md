@@ -1,8 +1,11 @@
-## Result NodeJS App Status
+## Creating a dev enviroment for result nodejs app
 
-[![Build Status](http://35.199.8.226:8080/buildStatus/icon?job=instavote%2Fresult-build&subject=Build)](http://35.199.8.226:8080/job/instavote/job/result-build/)
-[![Build Status](http://35.199.8.226:8080/buildStatus/icon?job=instavote%2Fresult-test&subject=UnitTest)](http://35.199.8.226:8080/job/instavote/job/result-test/)
+Follow these steps to build and run this app.
 
-## EDIT
+- Install NodeJS (8.xx) with NPM
+- Checkout the code and change into result dir
+- Run `npm install`
+- Run `npm test` to run unit tests
+- Run `npm start`
+- Application would start on port 4000
 
-Hi Lara!
