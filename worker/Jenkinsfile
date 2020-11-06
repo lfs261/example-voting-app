@@ -60,6 +60,7 @@ pipeline {
         stage('docker-package') {
 			agent any
 			when {
+				branch 'master'
 				changeset "**/worker/**"
 			}
             steps {
@@ -68,8 +69,7 @@ pipeline {
 					docker.withRegistry('https://index.docker.io/v1/', 'dockerlogin') {
 						def workerImage = docker.build("jackmontyorg/worker:v${env.BUILD_ID}", "./worker")
 						workerImage.push()
-
-						workerImage.push('latest')
+						workerImage.push("${env.BRANCH_NAME}")
 					}
 				}
             }
