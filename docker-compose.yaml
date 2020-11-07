@@ -6,7 +6,7 @@ vote:
 result:
   image: jackmontyorg/result:master
   ports: 
-    - 5001:80
+    - 5001:4000
 
 worker:
   image: jackmontyorg/worker:master
