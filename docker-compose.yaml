@@ -1,0 +1,12 @@
+vote:
+  image: jackmontyorg/vote:master
+  ports:
+    - 5000:80
+
+result:
+  image: jackmontyorg/result:master
+  ports: 
+    - 5000:80
+
+worker:
+  image: jackmontyorg/worker:master
