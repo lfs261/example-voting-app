@@ -2,6 +2,8 @@ vote:
   image: jackmontyorg/vote:master
   ports:
     - 5000:80
+  links:
+    - redis:redis
 
 redis:
   image: redis:alpine
@@ -15,6 +17,11 @@ result:
   image: jackmontyorg/result:master
   ports: 
     - 5001:4000
+  links:
+    - db:db
 
 worker:
   image: jackmontyorg/worker:master
+  links:
+    - redis:redis
+    - db:db
