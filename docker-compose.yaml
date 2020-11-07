@@ -3,6 +3,12 @@ vote:
   ports:
     - 5000:80
 
+redis:
+  image: redis:alpine
+
+db:
+  image: postgres:9.4
+
 result:
   image: jackmontyorg/result:master
   ports: 
