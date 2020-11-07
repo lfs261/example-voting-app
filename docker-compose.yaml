@@ -8,6 +8,8 @@ redis:
 
 db:
   image: postgres:9.4
+  environment: 
+    POSTGRES_HOST_AUTH_METHOD: trust
 
 result:
   image: jackmontyorg/result:master
