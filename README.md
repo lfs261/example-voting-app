@@ -1,5 +1,7 @@
-Example Voting App
+Example Voting App, with a test
 =========
+
+Behold, a sample voting app
 
 Getting started
 ---------------
