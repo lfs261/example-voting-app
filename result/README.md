@@ -1,7 +1,5 @@
 ## Creating a dev enviroment for result nodejs app
 
-
-
 Follow these steps to build and run this app.
 
 - Install NodeJS (8.xx) with NPM
