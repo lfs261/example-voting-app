@@ -14,14 +14,14 @@ pipeline {
 		}
             }
         }
-    }
+    
 
        stage('test') {
             steps {
                 echo 'Runnning tests on worker app'
             }
         }
-    }
+    
 
        stage('package') {
             steps {
