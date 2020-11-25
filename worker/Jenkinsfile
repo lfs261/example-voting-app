@@ -52,10 +52,10 @@ pipeline {
 	        echo 'Build pipeline for worker is complete...'
        	 }
 	failure {
-		slackSend (channel:"#instavote", message: "Build failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>))
+		slackSend (channel:"#instavote", message: "Build failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
        	 }
 	success { 
-		slackSend (channel: "#instavote", message: "Build succeeded - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>))
+		slackSend (channel: "#instavote", message: "Build succeeded - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
        	 }
     }
 }
