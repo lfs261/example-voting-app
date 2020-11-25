@@ -9,7 +9,7 @@ pipeline {
     stages {
           stage('build') {
    		when {
-			changeset '**/worker/**'
+			changeset '**/result/**'
 	}
             steps {
                 echo 'Compiling node app'
@@ -22,7 +22,7 @@ pipeline {
 
        stage('test') {
    		when {
-			changeset '**/worker/**'
+			changeset '**/result/**'
 	}	
             steps {
                 echo 'Runnning tests on worker app'
