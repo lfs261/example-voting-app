@@ -30,7 +30,7 @@ pipeline {
             steps {
                 echo 'Packaging worker app'	
 		dir('worker'){
-			sh 'mvn package'
+			sh 'mvn package -DskipTests'
 		}
            }
         }
@@ -38,7 +38,8 @@ pipeline {
 
     post { 
         always { 
-            echo 'Build pipeline for worker is complete...'
+		archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+	        echo 'Build pipeline for worker is complete...'
         }
     }
 }
