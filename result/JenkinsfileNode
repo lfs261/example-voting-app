@@ -27,7 +27,6 @@ pipeline {
             steps {
                 echo 'Runnning tests on worker app'
 		dir('result'){
-			sh 'npm install'
 			sh 'npm test'
 		}
             }
