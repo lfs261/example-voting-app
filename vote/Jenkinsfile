@@ -1,8 +1,8 @@
 pipeline {
     agent{
 	docker{
-		image 'node:8.16.0-alpine'
-		
+		image 'python:2.7.16-slim'
+		args '--user root'	
 	   }
 	}
 
@@ -10,12 +10,12 @@ pipeline {
     stages {
           stage('build') {
    		when {
-			changeset '**/result/**'
+			changeset '**/vote/**'
 	}
             steps {
                 echo 'Compiling node app'
-		dir('result'){
-			sh 'npm install'
+		dir('vote'){
+			sh 'pip install -r requirements.txt'
 		}
             }
         }
@@ -23,12 +23,12 @@ pipeline {
 
        stage('test') {
    		when {
-			changeset '**/result/**'
+			changeset '**/vote/**'
 	}	
             steps {
                 echo 'Runnning tests on worker app'
-		dir('result'){
-			sh 'npm test'
+		dir('vote'){
+			sh 'nosetests -v'
 		}
             }
         }

@@ -1,21 +1,19 @@
 pipeline {
-    agent{
-	docker{
-		image 'node:8.16.0-alpine'
-		
-	   }
-	}
+    agent any
+    tools{
+	maven 'Maven 3.6.3'
 
+   }
 
     stages {
           stage('build') {
    		when {
-			changeset '**/result/**'
+			changeset '**/worker/**'
 	}
             steps {
-                echo 'Compiling node app'
-		dir('result'){
-			sh 'npm install'
+                echo 'Compiling worker app'
+		dir('worker'){
+			sh 'mvn compile'
 		}
             }
         }
@@ -23,16 +21,30 @@ pipeline {
 
        stage('test') {
    		when {
-			changeset '**/result/**'
+			changeset '**/worker/**'
 	}	
             steps {
                 echo 'Runnning tests on worker app'
-		dir('result'){
-			sh 'npm test'
+		dir('worker'){
+			sh 'mvn clean test'
 		}
             }
         }
+    
 
+       stage('package') {
+	    when {
+		branch 'master'
+		changeset '**/worker/**'
+	}	
+            steps {
+                echo 'Packaging worker app'	
+		dir('worker'){
+			sh 'mvn package -DskipTests'
+			archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+		}
+           }
+        }
     }
 
     post { 
