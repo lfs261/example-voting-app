@@ -1,14 +1,15 @@
 pipeline {
-    agent{
+   agent none
+
+
+    stages {
+          stage('build') {
+           agent{
 	docker{
 		image 'python:2.7.16-slim'
 		args '--user root'	
 	   }
 	}
-
-
-    stages {
-          stage('build') {
    		when {
 			changeset '**/vote/**'
 	}
@@ -22,22 +23,48 @@ pipeline {
     
 
        stage('test') {
+        agent{
+	docker{
+		image 'python:2.7.16-slim'
+		args '--user root'	
+	   }
+	}
    		when {
 			changeset '**/vote/**'
 	}	
             steps {
                 echo 'Runnning tests on worker app'
 		dir('vote'){
+        			sh 'pip install -r requirements.txt'
 			sh 'nosetests -v'
 		}
             }
         }
+        
+           stage('docker-package') {
+		agent any
+	    when {
+		changeset '**/vote/**'
+		branch 'master'
+	}	
+            steps {
+                echo 'Packaging vote app with docker'	
+		script{
+		    docker.withRegistry('https://index.docker.io/v1/', 'dockerlogin') {
+			def voteImage = docker.build("bart3k1/vote:v${env.BUILD_ID}", "./vote")
+			voteImage.push()
+			voteImage.push("${env.BRANCH_NAME}")
+		
+                     }
+		}        	
+	   }
+     }
 
     }
 
     post { 
          always { 
-	        echo 'Build pipeline for worker is complete...'
+	        echo 'Build pipeline for vote is complete...'
        	 }
 	failure {
 		slackSend (channel:"#instavote", message: "Build failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
@@ -47,3 +74,6 @@ pipeline {
        	 }
     }
 }
+
+        
+     
