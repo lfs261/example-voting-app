@@ -1,19 +1,20 @@
 pipeline {
-    agent{
+    agent none
+
+
+    stages {
+          stage('build') {
+          agent{
 	docker{
 		image 'node:8.16.0-alpine'
 		
 	   }
 	}
-
-
-    stages {
-          stage('build') {
    		when {
 			changeset '**/result/**'
 	}
             steps {
-                echo 'Compiling node app'
+                echo 'Compiling result app'
 		dir('result'){
 			sh 'npm install'
 		}
@@ -22,22 +23,49 @@ pipeline {
     
 
        stage('test') {
+       agent{
+	docker{
+		image 'node:8.16.0-alpine'
+		
+	   }
+	}
    		when {
 			changeset '**/result/**'
 	}	
             steps {
-                echo 'Runnning tests on worker app'
+                echo 'Runnning tests on result app'
 		dir('result'){
-			sh 'npm test'
+					sh 'npm install'
+            sh 'npm test'
 		}
             }
         }
+        
+        stage('docker-package') {
+		agent any
+	    when {
+		changeset '**/result/**'
+		branch 'master'
+	}	
+            steps {
+                echo 'Packaging result app with docker'	
+		script{
+		    docker.withRegistry('https://index.docker.io/v1/', 'dockerlogin') {
+			def resultImage = docker.build("bart3k1/result:v${env.BUILD_ID}", "./result")
+			resultImage.push()
+			resultImage.push("${env.BRANCH_NAME}")
+		
+                     }
+		}        	
+	   }
+     }
+
 
     }
 
     post { 
          always { 
-	        echo 'Build pipeline for worker is complete...'
+	        echo 'Build pipeline for result is complete...'
        	 }
 	failure {
 		slackSend (channel:"#instavote", message: "Build failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
