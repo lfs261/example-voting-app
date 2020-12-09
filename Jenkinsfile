@@ -198,9 +198,19 @@ pipeline {
 	   }
      
 }
+
+ stage('deploy containers') {
+                agent any
+            when {
+                branch 'master'
+        	}       
+            steps {
+                echo 'Deploy instavote with jenkins and docker compose' 
+              	sh 'docker-compose up -d'
+             	}
+      }               
 }
-    
-    
+
     post { 
          always { 
 	        echo 'Build single pipeline is complete...'
