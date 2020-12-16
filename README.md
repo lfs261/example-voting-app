@@ -1,5 +1,7 @@
 Example Voting App
 =========
+[![Build Status](http://135.181.85.130:8080/buildStatus/icon?job=instavote%2Fworker-build)](http://135.181.85.130:8080/job/instavote/job/worker-build/)
+
 
 Getting started
 ---------------
@@ -59,4 +61,3 @@ Note
 
 The voting application only accepts one vote per client. It does not register votes if a vote has already been submitted from a client.
 
-[![Build Status](http://135.181.85.130:8080/buildStatus/icon?job=instavote%2Fworker-build)](http://135.181.85.130:8080/job/instavote/job/worker-build/)
