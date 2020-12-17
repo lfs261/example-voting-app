@@ -4,7 +4,7 @@ pipeline {
     maven 'maven 3.6.1'
   }
   stages{
-      stage("build"){
+      stage(one){
           steps{
               echo 'Compiling worker app..'
               dir('worker'){
@@ -12,7 +12,7 @@ pipeline {
               }
           }
       }
-      stage("test"){
+      stage(two){
           steps{
               echo 'Running Unit Tets on worker app..'
               dir('worker'){
@@ -20,17 +20,18 @@ pipeline {
               }
           }
       }
-      stage("package"){
+      stage(three){
           steps{
               echo 'Packaging worker app'
               dir('worker'){
-                sh 'mvn package'
+                sh 'mvn package -DskipTests'
               }
           }
       }
   }
   post{
     always{
+        archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
         echo 'Building multibranch pipeline for worker is completed..'
     }
   }
