@@ -4,22 +4,28 @@ pipeline {
     maven 'maven 3.6.1'
   }
   stages{
-      stage("build){
+      stage("build"){
           steps{
-              echo 'Compiling worker app'
+              echo 'Compiling worker app..'
               dir('worker'){
                 sh 'mvn compile'
               }
           }
       }
-      stage(two){
+      stage("test"){
           steps{
-              echo 'Running Unit Tets on worker app'
+              echo 'Running Unit Tets on worker app..'
+              dir('worker'){
+                sh 'mvn clean test'
+              }
           }
       }
-      stage(three){
+      stage("package"){
           steps{
               echo 'Packaging worker app'
+              dir('worker'){
+                sh 'mvn package'
+              }
           }
       }
   }
