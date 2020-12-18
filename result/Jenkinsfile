@@ -32,7 +32,7 @@ pipeline {
     always{
       echo 'Building multibranch pipeline for worker is completed..'
     }
-    failiure{
+    failure{
       echo 'post message failure'
     }
     success{
