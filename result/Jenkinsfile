@@ -6,18 +6,17 @@ pipeline {
   }
   stages{
       stage(build){
-      when{
-        changeset "**/result/**"
-      }
-      steps{
-      echo 'Compiling result app..'
-
-          dir('worker'){
-            sh 'npm install'
-          }
+        when{
+          changeset "**/result/**"
         }
+        steps{
+            echo 'Compiling result app..'
+            dir('worker'){
+              sh 'npm install'
+            }
+          }
       }
-      stage(test){
+      stage('test'){
         when{
           changeset "**/result/**"
         }
@@ -25,13 +24,13 @@ pipeline {
           echo 'Running Unit Tets on result app..'
           dir('result'){
             sh 'npm test'
-           }
           }
+        }
       }
   }
   post{
     always{
-        echo 'Building multibranch pipeline for worker is completed..'
+      echo 'Building multibranch pipeline for worker is completed..'
     }
     failiure{
       echo 'post message failure'
