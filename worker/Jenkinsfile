@@ -8,9 +8,6 @@ pipeline {
 
   stages{
       stage('build'){
-          when{
-            changeset "**/worker/**"
-          }
           steps{
               echo 'Compiling worker app..'
               dir('worker'){
@@ -19,9 +16,6 @@ pipeline {
           }
       }
       stage('test'){
-          when{
-            changeset "**/worker/**"
-          }
           steps{
               echo 'Running Unit Tets on worker app..'
               dir('worker'){
@@ -30,9 +24,6 @@ pipeline {
           }
       }
       stage('package'){
-          when{
-            branch 'master'
-            changeset "**/worker/**"
           }
           steps{
               echo 'Packaging worker app'
@@ -45,7 +36,7 @@ pipeline {
   }
   post{
     always{
-        echo 'Building multibranch pipeline for worker is completed..'
+        echo 'the job is complete'
     }
   }
 }
