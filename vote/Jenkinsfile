@@ -1,30 +1,31 @@
 pipeline {
   agent {
     docker {
-     image 'node:8.16.0-alpine' 
+     image 'python:2.7.16-slim' 
+     args '--user root'
     }
   }
   stages{
       stage(build){
         steps{
-            echo 'Compiling result app..'
-            dir('worker'){
-              sh 'npm install'
+            echo 'Compiling vote python app..'
+            dir('vote'){
+              sh 'pip install -r requirements.txt'
             }
           }
       }
       stage('test'){
         steps{
-          echo 'Running Unit Tets on result app..'
-          dir('result'){
-            sh 'npm test'
+          echo 'Running Unit Tets on vote app..'
+          dir('vote'){
+            sh 'nosetests -v'
           }
         }
       }
   }
   post{
     always{
-      echo 'Building multibranch pipeline for worker is completed..'
+      echo 'post message always :) '
     }
     failure{
       echo 'post message failure'
