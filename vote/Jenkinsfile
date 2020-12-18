@@ -7,9 +7,6 @@ pipeline {
   }
   stages{
       stage(build){
-        when{
-          changeset "**/vote/**"
-        }
         steps{
             echo 'Compiling vote python app..'
             dir('vote'){
@@ -18,9 +15,6 @@ pipeline {
           }
       }
       stage('test'){
-        when{
-          changeset "**/vote/**"
-        }
         steps{
           echo 'Running Unit Tets on vote app..'
           dir('vote'){
