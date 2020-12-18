@@ -1,10 +1,16 @@
 pipeline {
-  agent any
-  tools{
-    maven 'maven 3.6.1'
+  agent {
+    docker{
+      image "maven:3.6.1-jdk-8-alpine"
+      args '-v $HOME/.m2:/root/.m2'
+    }
   }
+
   stages{
-      stage(one){
+      stage('build'){
+          when{
+            changeset "**/worker/**"
+          }
           steps{
               echo 'Compiling worker app..'
               dir('worker'){
@@ -12,7 +18,10 @@ pipeline {
               }
           }
       }
-      stage(two){
+      stage('test'){
+          when{
+            changeset "**/worker/**"
+          }
           steps{
               echo 'Running Unit Tets on worker app..'
               dir('worker'){
@@ -20,11 +29,16 @@ pipeline {
               }
           }
       }
-      stage(three){
+      stage('package'){
+          when{
+            branch 'master'
+            changeset "**/worker/**"
+          }
           steps{
               echo 'Packaging worker app'
               dir('worker'){
                 sh 'mvn package -DskipTests'
+                archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
               }
           }
       }
