@@ -1,11 +1,12 @@
 pipeline {
-  agent {
-    docker {
-     image 'node:8.16.0-alpine' 
-    }
-  }
+  agent none
   stages{
       stage(build){
+        agent {
+          docker {
+           image 'node:8.16.0-alpine' 
+          }
+        }
         steps{
             echo 'Compiling result app..'
             dir('worker'){
@@ -14,6 +15,11 @@ pipeline {
           }
       }
       stage('test'){
+        agent {
+          docker {
+           image 'node:8.16.0-alpine' 
+          }
+        }
         steps{
           echo 'Running Unit Tets on result app..'
           dir('result'){
