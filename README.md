@@ -8,8 +8,6 @@ This is a sample voting app.
 [![Build Status](http://135.181.85.130:8080/buildStatus/icon?job=instavote%2Fworker-test)](http://135.181.85.130:8080/job/instavote/job/worker-test&subject=UnitTest)
 [![Build Status](http://135.181.85.130:8080/buildStatus/icon?job=instavote%2Fworker-package)](http://135.181.85.130:8080/job/instavote/job/worker-package/)
 
-A FEW CHANGES
-
 Getting started
 ---------------
 
