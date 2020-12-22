@@ -9,7 +9,7 @@ pipeline {
         }
         steps{
             echo 'Compiling result app..'
-            dir('worker'){
+            dir('result'){
               sh 'npm install'
             }
           }
@@ -47,7 +47,7 @@ pipeline {
   }
   post{
     always{
-      echo 'Building multibranch pipeline for worker is completed..'
+      echo 'Building multibranch pipeline for result is completed..'
     }
     failure{
       echo 'post message failure'
