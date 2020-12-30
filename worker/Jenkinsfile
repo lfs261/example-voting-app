@@ -4,7 +4,7 @@ tools{
 maven 'maven 3.6.1'
 }
 stages{
-stage("build){
+stage('build'){
 steps{
 echo 'Compiling worker app'
 dir('worker'){
