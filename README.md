@@ -1,6 +1,8 @@
 Example Voting App
 =========
 
+Adding some stuff in the new branch
+
 Getting started
 ---------------
 
