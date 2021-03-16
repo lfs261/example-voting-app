@@ -1,10 +1,6 @@
 Example Voting App
 =========
 
-Blablabla...
-Nog meer blablabla...
-
-
 Getting started
 ---------------
 
