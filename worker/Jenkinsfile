@@ -41,6 +41,5 @@ pipeline {
 	echo 'Building multibranch pipeline for worker is completed..'
     }
 	  slackSend "Build Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
-	  slackSend channel: "#instavote", message: "Build Started: ${env.JOB_NAME} ${env.BUILD_NUMBER}"
   }
 }
