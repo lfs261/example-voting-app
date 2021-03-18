@@ -38,12 +38,13 @@ pipeline {
 
   post{
     always{
-        echo 'Building multibranch pipeline for worker is completed..'
+	echo 'Building multibranch pipeline for worker is completed..'
     }
-	failure{
-	  slackSend (channel: "instavote", message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
-    }
-	success{
-           slackSend (channel: "instavote", message: "Build Succeeded - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")	
+	  success {
+           slackSend (channel: "instavote", message: "Build Succes - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
+       }
+          failure {
+           slackSend (channel: "instavote", message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
+       }
   }
 }
