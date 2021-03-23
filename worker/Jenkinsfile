@@ -1,11 +1,10 @@
 pipeline {
-  agent any
-
-  tools{
-    maven 'Maven 3.6.1'
-
-  }
-
+  agent{
+    docker{
+      image 'maven:3.6.1-jdk-8-slim'
+      args '-v $HOME/.m2:/root/.m2'
+    }
+  }  
   stages{
       stage("build"){
           steps{
@@ -38,7 +37,7 @@ pipeline {
 
   post{
     always{
-	echo 'Building multibranch pipeline for worker is completed..'
+	echo 'This job is complete'
     }
 	  success {
            slackSend (channel: "instavote", message: "Build Succes - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
