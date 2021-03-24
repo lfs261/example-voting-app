@@ -144,7 +144,7 @@ pipeline {
 
               docker.withRegistry('https://index.docker.io/v1/', 'dockerlogin') {
 
-                  def workerImage = docker.build("initcron/worker:v${env.BUILD_ID}", "./worker")
+                  def workerImage = docker.build("jeroenvanharten/worker:v${env.BUILD_ID}", "./worker")
 
                   workerImage.push()
 
@@ -165,14 +165,23 @@ pipeline {
 
 
   post{
-        always{
-            echo 'the job is complete'
+
+    always{
+
+        echo 'Building multibranch pipeline for worker is completed..'
+
     }
-	  success {
+success {
+
            slackSend (channel: "instavote", message: "Build Succes - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
+
        }
+
     failure {
+
            slackSend (channel: "instavote", message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
-       }
+
+      }
   }
+
 }
