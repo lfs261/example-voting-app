@@ -1,16 +1,13 @@
 pipeline {
-	agent any
-
-	tools{
-		maven 'maven 3.6.1'
+	agent {
+		docker {
+			image 'maven:3.6.1-jdk-8-slim'
+			args : '-v $HOME/.m2:/root/.m2'
+		}
 	}
 
 	stages{
 		stage("build"){
-			when{
-				changeset "**/worker/**"
-			}
-
 			steps{
 				echo 'Compiling worker app'
 				dir('worker'){
@@ -19,10 +16,6 @@ pipeline {
 			}
 		}
 		stage("test"){
-			when{
-				changeset "**/worker/**"
-			}
-
 			steps{
 				echo 'Running Unit Tets on worker app'
 				dir('worker'){
@@ -31,11 +24,6 @@ pipeline {
 			}
 		}
 		stage("package"){
-			when{
-				branch 'master'
-				changeset "**/worker/**"
-			}
-
 			steps{
 				echo 'Packaging worker app'
 				dir('worker'){
@@ -49,12 +37,6 @@ pipeline {
 	post{
 		always{
 			echo 'Building multibranch pipeline for worker is completed..'
-		}
-		failure{
-			slackSend (channel: "instavote-cd", message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
-		}
-		success{
-			slackSend (channel: "instavote-cd", message: "Build Succeeded - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
 		}
 	}
 }
