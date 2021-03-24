@@ -1,11 +1,7 @@
 pipeline {
-
-
-
+  
   agent none
-
-
-
+  
   stages{
 
       stage("build"){
@@ -167,9 +163,7 @@ pipeline {
   post{
 
     always{
-
         echo 'Building multibranch pipeline for worker is completed..'
-
     }
 success {
 
