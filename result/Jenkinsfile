@@ -1,16 +1,13 @@
 pipeline {
-	agent any
-
-	tools{
-		nodejs 'NodeJs 8.9.0'
-	}
+	agent {
+		nodejs {
+			image 'maven:3.6.1-jdk-8-slim'
+			args : '-v $HOME/.m2:/root/.m2'
+                }
+        }
 
 	stages{
 		stage("build"){
-			when{
-				changeset "**/result/**"
-			}
-
 			steps{
 				echo 'Compiling result app'
 				dir('worker'){
@@ -19,10 +16,6 @@ pipeline {
 			}
 		}
 		stage("test"){
-			when{
-				changeset "**/result/**"
-			}
-
 			steps{
 				echo 'Running Unit Tets on result app'
 				dir('result'){
