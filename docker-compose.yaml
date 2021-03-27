@@ -43,7 +43,7 @@ services:
       - instavote
 
   worker:
-    image: initcron/worker:latest
+    image: jeroenvanharten/worker:latest
     build: ./vote
     depends_on:
       - redis
