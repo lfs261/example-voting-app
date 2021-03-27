@@ -10,6 +10,7 @@ networks:
 services:
   vote:
     image: initcron/vote:latest
+    build: ./vote
     ports:
       - 5000:80
     depends_on:
@@ -33,6 +34,7 @@ services:
 
   result:
     image: initcron/result:latest
+    build: ./vote
     ports:
       - 5001:4000
     depends_on:
@@ -41,7 +43,8 @@ services:
       - instavote
 
   worker:
-    image: jeroenvanharten/worker:latest
+    image: initcron/worker:latest
+    build: ./vote
     depends_on:
       - redis
       - db
