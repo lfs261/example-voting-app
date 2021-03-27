@@ -115,28 +115,19 @@ pipeline {
       }
     }
 
-    stage('Deploy to Dev') {
-      steps {
-        sh '''stage(\'deploy to dev\'){
-
-
-          agent any          when{            branch \'master\'          }          steps{            echo \'Deploy instavote app with docker compose\'            sh \'docker-compose up -d\'          }      }'''
-        }
-      }
-
-    }
-    post {
-      always {
-        echo 'Building multibranch pipeline for instavote is completed..'
-      }
-
-      success {
-        slackSend(channel: 'instavote', message: "Build Succes - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
-      }
-
-      failure {
-        slackSend(channel: 'instavote', message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
-      }
-
-    }
   }
+  post {
+    always {
+      echo 'Building multibranch pipeline for instavote is completed..'
+    }
+
+    success {
+      slackSend(channel: 'instavote', message: "Build Succes - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
+    }
+
+    failure {
+      slackSend(channel: 'instavote', message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
+    }
+
+  }
+}
