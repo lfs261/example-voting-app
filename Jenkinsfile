@@ -159,7 +159,7 @@ pipeline {
   }
 
 stages{
-        stage(result build){
+        stage('result build'){
             when{
                 changeset "**/result/**"
               }
@@ -170,7 +170,7 @@ stages{
           }
         }
     }
-    stage(result test){
+    stage('result test'){
       when{
         changeset "**/result/**"
       }
