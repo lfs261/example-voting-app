@@ -155,11 +155,7 @@ pipeline {
           }
 
       }
-
-  }
-
-stages{
-        stage('result build'){
+      stage('result build'){
             when{
                 changeset "**/result/**"
               }
@@ -183,14 +179,12 @@ stages{
         }
     }
     }
-
-
   post{
 
     always{
         echo 'Building multibranch pipeline for instavote is completed..'
     }
-success {
+    success {
 
            slackSend (channel: "instavote", message: "Build Succes - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
 
