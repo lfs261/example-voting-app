@@ -65,7 +65,7 @@ pipeline {
 				echo 'Packaging worker app with docker'
 				script{
 					docker.withRegistry('https://index.docker.io/v1/', 'dockerlogin') {
-						def workerImage = docker.build("initcron/worker:v${env.BUILD_ID}", "./worker")
+						def workerImage = docker.build("lbpaulino/worker:v${env.BUILD_ID}", "./worker")
 						workerImage.push()
 						workerImage.push("latest")
 					}
@@ -78,5 +78,11 @@ pipeline {
 		always{
 			echo 'Building multibranch pipeline for worker is completed..'
 		}
+        	failure{
+			slackSend(channel: "instavote-cd", message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
+        	}
+        	success{
+			slackSend(channel: "instavote-cd", message: "Build Succeeded - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
+        	}
 	}
 }

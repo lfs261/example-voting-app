@@ -1,14 +1,18 @@
 pipeline {
-	agent {
-		docker {
-			image 'node:8.9.0-slim'
-			args '-v $HOME/.m2:/root/.m2'
-                }
-        }
+	agent none
 
 	stages{
 		stage("build"){
 			steps{
+				when{
+					changeset "**/result/**"
+				}
+				agent {
+					docker {
+						image 'node:8.9.0-slim'
+						args '-v $HOME/.m2:/root/.m2'
+               				}
+        			}
 				echo 'Compiling result app'
 				dir('worker'){
 					sh 'npm install'
@@ -17,10 +21,36 @@ pipeline {
 		}
 		stage("test"){
 			steps{
+				when{
+					changeset "**/result/**"
+				}
+				agent {
+					docker {
+						image 'node:8.9.0-slim'
+						args '-v $HOME/.m2:/root/.m2'
+               				}
+        			}
 				echo 'Running Unit Tets on result app'
 				dir('result'){
 					sh 'npm install'
 					sh 'npm test'
+				}
+			}
+		}
+		stage('docker-package'){
+			agent any
+			when {
+				branch 'master'
+				changeset "**/result/**"
+			}
+			steps{
+				echo 'Packaging result app with docker'
+				script{
+					docker.withRegistry('https://index.docker.io/v1/', 'dockerlogin') {
+						def resultImage = docker.build("lbpaulino/result:v${env.BUILD_ID}", "./result")
+						resultImage.push()
+						resultImage.push("latest")
+					}
 				}
 			}
 		}
@@ -30,5 +60,11 @@ pipeline {
 		always{
 			echo 'Building multibranch pipeline for result is completed..'
 		}
+        	failure{
+			slackSend(channel: "instavote-cd", message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
+        	}
+        	success{
+			slackSend(channel: "instavote-cd", message: "Build Succeeded - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
+        	}
 	}
 }
