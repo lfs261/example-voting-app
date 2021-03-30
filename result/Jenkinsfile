@@ -3,7 +3,6 @@ pipeline {
 
 	stages{
 		stage("build"){
-			steps{
 				when{
 					changeset "**/result/**"
 				}
@@ -17,10 +16,8 @@ pipeline {
 				dir('result'){
 					sh 'npm install'
 				}
-			}
 		}
 		stage("test"){
-			steps{
 				when{
 					changeset "**/result/**"
 				}
@@ -35,7 +32,6 @@ pipeline {
 					sh 'npm install'
 					sh 'npm test'
 				}
-			}
 		}
 		stage('docker-package'){
 			agent any
