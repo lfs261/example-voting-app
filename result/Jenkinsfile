@@ -3,35 +3,39 @@ pipeline {
 
 	stages{
 		stage("build"){
-				when{
-					changeset "**/result/**"
+			when{
+				changeset "**/result/**"
+			}
+			agent {
+				docker {
+					image 'node:8.9.0-slim'
+					args '-v $HOME/.m2:/root/.m2'
 				}
-				agent {
-					docker {
-						image 'node:8.9.0-slim'
-						args '-v $HOME/.m2:/root/.m2'
-					}
-				}
+			}
+			steps{
 				echo 'Compiling result app'
 				dir('result'){
 					sh 'npm install'
 				}
+			}
 		}
 		stage("test"){
-				when{
-					changeset "**/result/**"
-				}
-				agent {
-					docker {
-						image 'node:8.9.0-slim'
-						args '-v $HOME/.m2:/root/.m2'
-               				}
-        			}
+			when{
+				changeset "**/result/**"
+			}
+			agent {
+				docker {
+					image 'node:8.9.0-slim'
+					args '-v $HOME/.m2:/root/.m2'
+               			}
+        		}
+			steps{
 				echo 'Running Unit Tets on result app'
 				dir('result'){
 					sh 'npm install'
 					sh 'npm test'
 				}
+			}
 		}
 		stage('docker-package'){
 			agent any
