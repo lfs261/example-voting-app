@@ -10,13 +10,13 @@ pipeline {
 			agent {
 				docker {
 					image 'python:2.7.16-slim'
-					args '-v $HOME/.m2:/root/.m2'
+					args '--user root -v $HOME/.m2:/root/.m2'
 				}
 			}
 			steps{
 				echo "Compiling vote app"
 				dir('vote'){
-					sh 'pip install -i requirements.txt'
+					sh 'pip install -r requirements.txt'
 				}
 			}
 		}
@@ -27,7 +27,7 @@ pipeline {
 			agent {
 				docker {
 					image 'python:2.7.16-slim'
-					args '-v $HOME/.m2:/root/.m2'
+					args '--user root -v $HOME/.m2:/root/.m2'
 				}
 			}
 			steps{
