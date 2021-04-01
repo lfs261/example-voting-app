@@ -11,6 +11,7 @@ services:
 
         vote:
                 image: lbpaulino/vote:latest
+                build: ./vote
                 ports:
                         - 5000:80
                 depends_on:
@@ -34,6 +35,7 @@ services:
 
         result:
                 image: lbpaulino/result:latest
+                build: ./vote
                 ports:
                         - 5001:4000
                 depends_on:
@@ -43,6 +45,7 @@ services:
 
         worker:
                 image: lbpaulino/worker:latest
+                build: ./vote
                 depends_on:
                         - redis
                         - db
