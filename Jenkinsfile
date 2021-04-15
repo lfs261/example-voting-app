@@ -181,9 +181,6 @@ pipeline {
 
 		stage('Sonarqube') {
 			agent any
-			when{
-				branch 'master'
-			}
 			tools{
 				jdk "JDK 11" // the name you have given the JDK installation in Global Tool Configuration
 			}
