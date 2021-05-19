@@ -1,12 +1,12 @@
 pipeline {
-  agent {
-    docker {
-      image 'maven:3.6.1-jdk-8-alpine'
-      args '-v $HOME/.m2:/root/.m2'
-    }
-  }
   stages {
     stage("build"){
+      agent {
+        docker {
+          image 'maven:3.6.1-jdk-8-alpine'
+          args '-v $HOME/.m2:/root/.m2'
+        }
+      }
       when {
         changeset "**/worker/**"
       }
@@ -18,6 +18,12 @@ pipeline {
       }
     }
     stage("test"){
+      agent {
+        docker {
+          image 'maven:3.6.1-jdk-8-alpine'
+          args '-v $HOME/.m2:/root/.m2'
+        }
+      }
       when {
         changeset "**/worker/**"
       }
@@ -30,6 +36,12 @@ pipeline {
       }
     }
     stage("package") {
+      agent {
+        docker {
+          image 'maven:3.6.1-jdk-8-alpine'
+          args '-v $HOME/.m2:/root/.m2'
+        }
+      }
       when {
         branch "master"
         changeset "**/worker/**"
