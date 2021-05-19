@@ -17,25 +17,25 @@ pipeline {
     stage("test"){
       steps{
         echo "====++++Running Unit Tests on worker app++++===="
+        dir("worker") { 
+          sh "mvn clean test"
+        }
         sleep 9
       }
     }
     stage("package") {
       steps {
         echo "====++++Packaging worker app++++===="
+        dir("worker") { 
+          sh "mvn package -DskipTests"
+        }
         sleep 5
       }
     }
   }
-  post{
-      always{
-          echo "====++++always++++===="
-      }
-      success{
-          echo "====++++A executed successfully++++===="
-      }
-      failure{
-          echo "====++++A execution failed++++===="
-      }
+  post {
+    always {
+      archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+    }
   }
 }
