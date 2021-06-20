@@ -13,7 +13,7 @@ pipeline {
 		changeset "**/worker/**"
 	    }
             steps {
-                echo 'Compiling worker app'
+                echo 'Compiling worker app2'
                 dir('worker')
                 {
                     sh 'mvn compile'
