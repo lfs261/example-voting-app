@@ -51,6 +51,12 @@ pipeline {
 	    always{
 	    	echo 'Pipeline for worker is complete..'	
 	    }
+	    failure{
+	    	slackSend (channel: "instavote-cd", message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD.URL}|Open>)")
+	    }
+	    success{
+	    	slackSend (channel: "instavote-cd", message: "Build Succeeded - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD.URL}|Open>)")
+	    }
     }
     
 }
