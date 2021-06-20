@@ -41,7 +41,7 @@ pipeline {
                 {
                 	
                     sh 'mvn package -DskipTests'                    
-		     artifacts: '**/target/*.jar', fingerprint: true
+		     archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
                 }
             }
         }
