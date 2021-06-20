@@ -25,7 +25,7 @@ pipeline {
 		    changeset "**/vote/**"
 		}
             steps {
-                echo 'Running Unit Tests on vote app'
+                echo 'Running Unit Tests on vote app2'
                 dir('vote')
                 {
                     sh 'nosetests -v'
