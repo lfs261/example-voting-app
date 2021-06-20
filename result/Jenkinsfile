@@ -32,5 +32,10 @@ pipeline {
             }
         }
     }    
+    post{
+	    always{
+	    	echo 'Pipeline for result is complete..'	
+	    }
+    }
 }
 
