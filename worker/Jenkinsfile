@@ -32,6 +32,21 @@ pipeline {
                 }                
             }
         }
+        stage('package') {
+		when{
+		    branch 'master'
+		    changeset "**/worker/**"
+		}
+            steps {
+                echo 'Packaging worker app'
+                dir('worker')
+                {
+                	
+                    sh 'mvn package -DskipTests'                    
+		     archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+                }
+            }
+        }
         stage('docker-package') {
 		when{
 		    branch 'master'
