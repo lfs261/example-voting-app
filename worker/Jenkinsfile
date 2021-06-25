@@ -52,7 +52,7 @@ pipeline {
 		    changeset "**/worker/**"
 		}
             steps {
-                echo 'Packaging worker app'
+                echo 'Packaging worker app2'
                 dir('worker')
                 {
                 	
