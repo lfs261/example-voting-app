@@ -67,7 +67,7 @@ pipeline {
 		    changeset "**/worker/**"
 		}
             steps {
-                echo 'Packaging worker app with docker2'
+                echo 'Packaging worker app with docker'
                 script{
                 	docker.withRegistry('https://index.docker.io/v1/', 'dockerlogin')
                 	{
