@@ -166,7 +166,7 @@ pipeline {
         when{
 		    changeset "**/vote/**"
 		}
-            steps {cd
+            steps {
                 echo 'Running Unit Tests on vote app2'
                 dir('vote')
                 {
